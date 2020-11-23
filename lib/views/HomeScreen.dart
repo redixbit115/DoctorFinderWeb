@@ -669,7 +669,7 @@ class _HomeScreenState extends State<HomeScreen> {
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(12),
                 child: CachedNetworkImage(
-                  imageUrl: img.toString().replaceAll("/", ""),
+                  imageUrl: Uri.encodeFull(img),
                   fit: BoxFit.cover,
                   placeholder: (context, url) => Container(
                     color: Theme.of(context).primaryColorLight,
