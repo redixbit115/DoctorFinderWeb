@@ -477,7 +477,7 @@ class _DoctorProfileState extends State<DoctorProfile>{
                               fit: BoxFit.fill,
                             )
                                 : CachedNetworkImage(
-                              imageUrl: doctorProfileDetails.data.image,
+                              imageUrl: Uri.encodeFull(doctorProfileDetails.data.image),
                               height: 130,
                               width: 130,
                               placeholder: (context, url) => Icon(Icons.image, color: Theme.of(context).primaryColorDark.withOpacity(0.5),),

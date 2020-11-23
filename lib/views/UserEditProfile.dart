@@ -243,7 +243,7 @@ class _UserEditProfileState extends State<UserEditProfile> {
                                   fit: BoxFit.fill,
                                 )
                                     : CachedNetworkImage(
-                                  imageUrl: profileImage,
+                                  imageUrl: Uri.encodeFull(profileImage),
                                   height: 130,
                                   width: 130,
                                   placeholder: (context, url) => Icon(Icons.image, color: Theme.of(context).primaryColorDark.withOpacity(0.5),),

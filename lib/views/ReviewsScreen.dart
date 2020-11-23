@@ -235,7 +235,7 @@ class _ReviewsScreenState extends State<ReviewsScreen> {
               ClipRRect(
                 borderRadius: BorderRadius.circular(15),
                 child: CachedNetworkImage(
-                  imageUrl: image,
+                  imageUrl: Uri.encodeFull(image),
                   height: 50,
                   width: 50,placeholder: (context, url) => Container(color: Theme.of(context).primaryColorLight, child: Padding(
                   padding: const EdgeInsets.all(15.0),

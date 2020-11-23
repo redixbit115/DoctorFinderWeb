@@ -148,7 +148,7 @@ class _MoreScreenState extends State<MoreScreen> {
               ClipRRect(
                 borderRadius: BorderRadius.circular(35),
                 child: CachedNetworkImage(
-                  imageUrl: isLoggedIn ? profileImage : " ",
+                  imageUrl: isLoggedIn ? Uri.encodeFull(profileImage) : " ",
                   //imageUrl: " ",
                   height: 70,
                   width: 70,

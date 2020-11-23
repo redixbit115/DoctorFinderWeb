@@ -139,7 +139,7 @@ class _SearchedScreenState extends State<SearchedScreen> {
             ClipRRect(
               borderRadius: BorderRadius.circular(15),
               child: CachedNetworkImage(
-                imageUrl: img,
+                imageUrl: Uri.encodeFull(img),
                 height: 70,
                 width: 70,
                 fit: BoxFit.cover,

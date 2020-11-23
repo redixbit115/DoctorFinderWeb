@@ -200,7 +200,7 @@ class _AllNearbyState extends State<AllNearby> {
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(12),
                 child: CachedNetworkImage(
-                  imageUrl: img,
+                  imageUrl: Uri.encodeFull(img),
                   fit: BoxFit.cover,
                   width: 250,
                   placeholder: (context, url) => Container(

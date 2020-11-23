@@ -147,7 +147,7 @@ class _DetailsPageState extends State<DetailsPage> {
           ClipRRect(
             borderRadius: BorderRadius.circular(15),
             child: CachedNetworkImage(
-              imageUrl: doctorDetailsClass.data.image,
+              imageUrl: Uri.encodeFull(doctorDetailsClass.data.image),
               height: 80,
               width: 80,
               fit: BoxFit.cover,

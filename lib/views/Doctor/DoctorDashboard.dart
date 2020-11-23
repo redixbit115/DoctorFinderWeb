@@ -178,7 +178,7 @@ class _DoctorDashboardState extends State<DoctorDashboard> {
               ClipRRect(
                 borderRadius: BorderRadius.circular(15),
                 child: CachedNetworkImage(
-                  imageUrl: doctorProfileWithRating.data.image,
+                  imageUrl: Uri.encodeFull(doctorProfileWithRating.data.image),
                   height: 85,
                   width: 85,
                   fit: BoxFit.cover,
@@ -368,7 +368,7 @@ class _DoctorDashboardState extends State<DoctorDashboard> {
             ClipRRect(
               borderRadius: BorderRadius.circular(15),
               child: CachedNetworkImage(
-                imageUrl: list[index].image ?? " ",
+                imageUrl: Uri.encodeFull(list[index].image) ?? " ",
                 height: 75,
                 width: 75,
                 placeholder: (context, url) => Container(

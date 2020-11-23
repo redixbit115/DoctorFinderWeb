@@ -142,7 +142,7 @@ class _DoctorAppointmentDetailsState extends State<DoctorAppointmentDetails> {
                 ClipRRect(
                   borderRadius: BorderRadius.circular(15),
                   child: CachedNetworkImage(
-                    imageUrl: list.image ?? " ",
+                    imageUrl: Uri.encodeFull(list.image) ?? " ",
                     height: 75,
                     width: 75,
                     placeholder: (context, url) => Container(

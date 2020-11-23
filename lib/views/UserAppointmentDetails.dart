@@ -128,7 +128,7 @@ class _UserAppointmentDetailsState extends State<UserAppointmentDetails> {
                 ClipRRect(
                   borderRadius: BorderRadius.circular(15),
                   child: CachedNetworkImage(
-                    imageUrl: list.image,
+                    imageUrl: Uri.encodeFull(list.image),
                     height: 80,
                     width: 80,
                     fit: BoxFit.fill,
