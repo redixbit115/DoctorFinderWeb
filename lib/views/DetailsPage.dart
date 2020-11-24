@@ -70,13 +70,18 @@ class _DetailsPageState extends State<DetailsPage> {
           children: [
             !isLoading
                 ? SingleChildScrollView(
-              child: Column(
-                children: [
-                  header(),
-                  appointmentListWidget(),
-                  doctorDetails(),
-                  SizedBox(height: 80,),
-                ],
+              child: Center(
+                child: Container(
+                  constraints: BoxConstraints(minWidth: minWidth, maxWidth: maxWidth),
+                  child: Column(
+                    children: [
+                      header(),
+                      appointmentListWidget(),
+                      doctorDetails(),
+                      SizedBox(height: 80,),
+                    ],
+                  ),
+                ),
               ),
             )
                 : Center(
@@ -513,6 +518,7 @@ class _DetailsPageState extends State<DetailsPage> {
       alignment: Alignment.bottomCenter,
       child: Container(
         height: 50,
+        constraints: BoxConstraints(minWidth: minWidth, maxWidth: maxWidth),
         margin: EdgeInsets.fromLTRB(20, 10, 20, 20),
         //width: MediaQuery.of(context).size.width,
         child: InkWell(

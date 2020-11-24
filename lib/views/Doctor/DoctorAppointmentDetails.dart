@@ -128,219 +128,224 @@ class _DoctorAppointmentDetailsState extends State<DoctorAppointmentDetails> {
 
   Widget appointmentListWidget(var list) {
     return SingleChildScrollView(
-      child: Column(
-        children: [
-          Container(
-            margin: EdgeInsets.all(10),
-            padding: EdgeInsets.all(8),
-            decoration: BoxDecoration(
-              color: Theme.of(context).backgroundColor,
-              borderRadius: BorderRadius.circular(15)
-            ),
-            child: Row(
-              children: [
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(15),
-                  child: CachedNetworkImage(
-                    imageUrl: Uri.encodeFull(list.image) ?? " ",
-                    height: 75,
-                    width: 75,
-                    placeholder: (context, url) => Container(
-                      color: Theme.of(context).primaryColorLight,
-                      child: Center(
-                        child: Image.asset("assets/homeScreenImages/user_unactive.png",height: 40, width: 40,),
-                      ),
-
-                    ),
-                    errorWidget: (context,url,err) => Container(
-                      color: Theme.of(context).primaryColorLight,
-                      child: Center(
-                        child: Image.asset("assets/homeScreenImages/user_unactive.png",height: 40, width: 40,),
-                      ),
-                    ),
-                  ),
+      child: Center(
+        child: Container(
+          constraints: BoxConstraints(minWidth: minWidth, maxWidth: maxWidth),
+          child: Column(
+            children: [
+              Container(
+                margin: EdgeInsets.all(10),
+                padding: EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  color: Theme.of(context).backgroundColor,
+                  borderRadius: BorderRadius.circular(15)
                 ),
-                SizedBox(width: 10,),
-                Expanded(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Container(
-                        child: Column(
+                child: Row(
+                  children: [
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(15),
+                      child: CachedNetworkImage(
+                        imageUrl: Uri.encodeFull(list.image) ?? " ",
+                        height: 75,
+                        width: 75,
+                        placeholder: (context, url) => Container(
+                          color: Theme.of(context).primaryColorLight,
+                          child: Center(
+                            child: Image.asset("assets/homeScreenImages/user_unactive.png",height: 40, width: 40,),
+                          ),
+
+                        ),
+                        errorWidget: (context,url,err) => Container(
+                          color: Theme.of(context).primaryColorLight,
+                          child: Center(
+                            child: Image.asset("assets/homeScreenImages/user_unactive.png",height: 40, width: 40,),
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(width: 10,),
+                    Expanded(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(list.name,
+                                  style: Theme.of(context).textTheme.bodyText2.apply(
+                                      fontWeightDelta: 5,
+                                    fontSizeDelta: 2
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          SizedBox(height: 10,),
+                          Container(
+                            padding: EdgeInsets.all(5),
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(15),
+                                color: Theme.of(context).primaryColorLight
+                            ),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Image.asset(
+                                  "assets/detailScreenImages/time.png",
+                                  height: 13,
+                                  width: 13,
+                                ),
+                                SizedBox(width: 5,),
+                                Text(list.status, style: Theme.of(context).textTheme.caption.apply(
+                                  fontSizeDelta: 0.5,
+                                  fontWeightDelta: 2,
+                                ),),
+                                SizedBox(width: 5,),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(width: 10,),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        Image.asset(
+                          "assets/homeScreenImages/calender.png",
+                          height: 17,
+                          width: 17,
+                        ),
+                        SizedBox(height: 5,),
+                        Text(
+                            list.date.toString().substring(8)+"-"+list.date.toString().substring(5,7)+"-"+list.date.toString().substring(0,4),
+                            style: Theme.of(context).textTheme.caption
+                        ),
+                        Text(list.slot,
+                            style: Theme.of(context).textTheme.bodyText1.apply(
+                                fontWeightDelta: 2
+                            )
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(height: 10,),
+              Container(
+                margin: EdgeInsets.fromLTRB(10, 0, 10, 0),
+                padding: EdgeInsets.all(8),
+                color: Theme.of(context).backgroundColor,
+                child: Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(list.name,
-                              style: Theme.of(context).textTheme.bodyText2.apply(
-                                  fontWeightDelta: 5,
-                                fontSizeDelta: 2
+                            Text(PHONE_NUMBER,
+                              style: Theme.of(context).textTheme.bodyText1.apply(
+                                fontWeightDelta: 1,
+                                fontSizeDelta: 1.5
+                              ),
+                            ),
+                            SizedBox(height: 5,),
+                            Text(list.phone,
+                              style: Theme.of(context).textTheme.caption.apply(
+                                fontWeightDelta: 2,
+                                color: Theme.of(context).primaryColorDark.withOpacity(0.5),
                               ),
                             ),
                           ],
                         ),
-                      ),
-                      SizedBox(height: 10,),
-                      Container(
-                        padding: EdgeInsets.all(5),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(15),
-                            color: Theme.of(context).primaryColorLight
+                        InkWell(
+                          onTap: (){
+                            launch("tel:"+list.phone);
+                          },
+                          child: Image.asset(
+                              "assets/detailScreenImages/phone_button.png",
+                            height: 45,
+                            width: 45,
+                          ),
                         ),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
+                      ],
+                    ),
+                    SizedBox(height: 10,),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Image.asset(
-                              "assets/detailScreenImages/time.png",
-                              height: 13,
-                              width: 13,
+                            Text(EMAIL_ADDRESS,
+                              style: Theme.of(context).textTheme.bodyText1.apply(
+                                fontWeightDelta: 1,
+                                fontSizeDelta: 1.5
+                              ),
                             ),
-                            SizedBox(width: 5,),
-                            Text(list.status, style: Theme.of(context).textTheme.caption.apply(
-                              fontSizeDelta: 0.5,
-                              fontWeightDelta: 2,
-                            ),),
-                            SizedBox(width: 5,),
+                            SizedBox(height: 5,),
+                            Text(list.email,
+                              style: Theme.of(context).textTheme.caption.apply(
+                                fontWeightDelta: 2,
+                                color: Theme.of(context).primaryColorDark.withOpacity(0.5),
+                              ),
+                            ),
                           ],
                         ),
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(width: 10,),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    Image.asset(
-                      "assets/homeScreenImages/calender.png",
-                      height: 17,
-                      width: 17,
+                        InkWell(
+                          onTap: (){
+                            print("pressed");
+                            launch(Uri(
+                              scheme: 'mailto',
+                              path: list.email,
+                              // queryParameters: {
+                              //   'subject': 'Example Subject & Symbols are allowed!'
+                              // }
+                            ).toString());
+                          },
+                          child: Image.asset(
+                              "assets/detailScreenImages/email_btn.png",
+                            height: 45,
+                            width: 45,
+                          ),
+                        ),
+                      ],
                     ),
-                    SizedBox(height: 5,),
-                    Text(
-                        list.date.toString().substring(8)+"-"+list.date.toString().substring(5,7)+"-"+list.date.toString().substring(0,4),
-                        style: Theme.of(context).textTheme.caption
-                    ),
-                    Text(list.slot,
-                        style: Theme.of(context).textTheme.bodyText1.apply(
-                            fontWeightDelta: 2
-                        )
+                    SizedBox(height: 15,),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(DESCRIPTION,
+                              style: Theme.of(context).textTheme.bodyText1.apply(
+                                fontWeightDelta: 1,
+                                fontSizeDelta: 1.5
+                              ),
+                            ),
+                            SizedBox(height: 5,),
+                            Text(list.description,
+                              style: Theme.of(context).textTheme.caption.apply(
+                                fontWeightDelta: 2,
+                                color: Theme.of(context).primaryColorDark.withOpacity(0.5),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
                   ],
                 ),
-              ],
-            ),
+              ),
+              SizedBox(height: 150,),
+            ],
           ),
-          SizedBox(height: 10,),
-          Container(
-            margin: EdgeInsets.fromLTRB(10, 0, 10, 0),
-            padding: EdgeInsets.all(8),
-            color: Theme.of(context).backgroundColor,
-            child: Column(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(PHONE_NUMBER,
-                          style: Theme.of(context).textTheme.bodyText1.apply(
-                            fontWeightDelta: 1,
-                            fontSizeDelta: 1.5
-                          ),
-                        ),
-                        SizedBox(height: 5,),
-                        Text(list.phone,
-                          style: Theme.of(context).textTheme.caption.apply(
-                            fontWeightDelta: 2,
-                            color: Theme.of(context).primaryColorDark.withOpacity(0.5),
-                          ),
-                        ),
-                      ],
-                    ),
-                    InkWell(
-                      onTap: (){
-                        launch("tel:"+list.phone);
-                      },
-                      child: Image.asset(
-                          "assets/detailScreenImages/phone_button.png",
-                        height: 45,
-                        width: 45,
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(height: 10,),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(EMAIL_ADDRESS,
-                          style: Theme.of(context).textTheme.bodyText1.apply(
-                            fontWeightDelta: 1,
-                            fontSizeDelta: 1.5
-                          ),
-                        ),
-                        SizedBox(height: 5,),
-                        Text(list.email,
-                          style: Theme.of(context).textTheme.caption.apply(
-                            fontWeightDelta: 2,
-                            color: Theme.of(context).primaryColorDark.withOpacity(0.5),
-                          ),
-                        ),
-                      ],
-                    ),
-                    InkWell(
-                      onTap: (){
-                        print("pressed");
-                        launch(Uri(
-                          scheme: 'mailto',
-                          path: list.email,
-                          // queryParameters: {
-                          //   'subject': 'Example Subject & Symbols are allowed!'
-                          // }
-                        ).toString());
-                      },
-                      child: Image.asset(
-                          "assets/detailScreenImages/email_btn.png",
-                        height: 45,
-                        width: 45,
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(height: 15,),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(DESCRIPTION,
-                          style: Theme.of(context).textTheme.bodyText1.apply(
-                            fontWeightDelta: 1,
-                            fontSizeDelta: 1.5
-                          ),
-                        ),
-                        SizedBox(height: 5,),
-                        Text(list.description,
-                          style: Theme.of(context).textTheme.caption.apply(
-                            fontWeightDelta: 2,
-                            color: Theme.of(context).primaryColorDark.withOpacity(0.5),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-          SizedBox(height: 150,),
-        ],
+        ),
       ),
     );
   }
@@ -349,151 +354,154 @@ class _DoctorAppointmentDetailsState extends State<DoctorAppointmentDetails> {
   Widget button(){
     return Align(
       alignment: Alignment.bottomCenter,
-      child: doctorAppointmentDetailsClass.data.status == "Received"
-          ? Column(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          Container(
-            height: 50,
-            margin: EdgeInsets.fromLTRB(20, 0, 20, 5),
-            child: InkWell(
-              onTap: (){
-                changeStatus("3");
-              },
-              child: Stack(
-                children: [
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(25),
-                    child: Image.asset("assets/moreScreenImages/header_bg.png",
-                      height: 50,
-                      fit: BoxFit.fill,
-                      width: MediaQuery.of(context).size.width,
+      child: Container(
+        constraints: BoxConstraints(minWidth: minWidth, maxWidth: maxWidth),
+        child: doctorAppointmentDetailsClass.data.status == "Received"
+            ? Column(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            Container(
+              height: 50,
+              margin: EdgeInsets.fromLTRB(20, 0, 20, 5),
+              child: InkWell(
+                onTap: (){
+                  changeStatus("3");
+                },
+                child: Stack(
+                  children: [
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(25),
+                      child: Image.asset("assets/moreScreenImages/header_bg.png",
+                        height: 50,
+                        fit: BoxFit.fill,
+                        width: MediaQuery.of(context).size.width,
+                      ),
                     ),
-                  ),
-                  Center(
-                    child: Text(
-                      ACCEPT,
-                      style: Theme.of(context).textTheme.bodyText1.apply(
-                        color: Theme.of(context).backgroundColor,
-                        fontSizeDelta: 2
-                      )
-                    ),
-                  )
-                ],
-              ),
-            ),
-          ),
-          SizedBox(height: 10,),
-          Container(
-            height: 50,
-            margin: EdgeInsets.fromLTRB(20, 0, 20, 20),
-            child: InkWell(
-              onTap: (){
-                changeStatus("5");
-              },
-              child: Stack(
-                children: [
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(25),
-                    child: Image.asset("assets/moreScreenImages/header_bg.png",
-                      height: 50,
-                      fit: BoxFit.fill,
-                      width: MediaQuery.of(context).size.width,
-                    ),
-                  ),
-                  Center(
-                    child: Text(
-                        CANCEL,
+                    Center(
+                      child: Text(
+                        ACCEPT,
                         style: Theme.of(context).textTheme.bodyText1.apply(
                           color: Theme.of(context).backgroundColor,
                           fontSizeDelta: 2
                         )
-                    ),
-                  )
-                ],
+                      ),
+                    )
+                  ],
+                ),
               ),
             ),
-          ),
-        ],
-      )
-          : doctorAppointmentDetailsClass.data.status == "In Process"
-              ? Column(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          Container(
-            height: 50,
-            margin: EdgeInsets.fromLTRB(20, 0, 20, 5),
-            child: InkWell(
-              onTap: (){
-                if(doctorAppointmentDetailsClass.data.date == DateTime.now().toString().substring(0,10)){
-                  print("yes");
-                }else{
-                  print("no");
-                  setState(() {
-                    isCompleteError = true;
-                  });
-                  messageDialog(ERROR, "Appointment is on ${doctorAppointmentDetailsClass.data.date}. You can't mark it as Completed today");
-                }
-                // print(doctorAppointmentDetailsClass.data.date);
-                // print(DateTime.now().toString().substring(0,10));
-                //changeStatus("4");
-              },
-              child: Stack(
-                children: [
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(25),
-                    child: Image.asset("assets/moreScreenImages/header_bg.png",
-                      height: 50,
-                      fit: BoxFit.fill,
-                      width: MediaQuery.of(context).size.width,
+            SizedBox(height: 10,),
+            Container(
+              height: 50,
+              margin: EdgeInsets.fromLTRB(20, 0, 20, 20),
+              child: InkWell(
+                onTap: (){
+                  changeStatus("5");
+                },
+                child: Stack(
+                  children: [
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(25),
+                      child: Image.asset("assets/moreScreenImages/header_bg.png",
+                        height: 50,
+                        fit: BoxFit.fill,
+                        width: MediaQuery.of(context).size.width,
+                      ),
                     ),
-                  ),
-                  Center(
-                    child: Text(
-                        COMPLETE,
-                        style: Theme.of(context).textTheme.bodyText1.apply(
+                    Center(
+                      child: Text(
+                          CANCEL,
+                          style: Theme.of(context).textTheme.bodyText1.apply(
                             color: Theme.of(context).backgroundColor,
                             fontSizeDelta: 2
-                        )
-                    ),
-                  )
-                ],
+                          )
+                      ),
+                    )
+                  ],
+                ),
               ),
             ),
-          ),
-          SizedBox(height: 10,),
-          Container(
-            height: 50,
-            margin: EdgeInsets.fromLTRB(20, 0, 20, 20),
-            child: InkWell(
-              onTap: (){
-                changeStatus("0");
-              },
-              child: Stack(
-                children: [
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(25),
-                    child: Image.asset("assets/moreScreenImages/header_bg.png",
-                      height: 50,
-                      fit: BoxFit.fill,
-                      width: MediaQuery.of(context).size.width,
+          ],
+        )
+            : doctorAppointmentDetailsClass.data.status == "In Process"
+                ? Column(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            Container(
+              height: 50,
+              margin: EdgeInsets.fromLTRB(20, 0, 20, 5),
+              child: InkWell(
+                onTap: (){
+                  if(doctorAppointmentDetailsClass.data.date == DateTime.now().toString().substring(0,10)){
+                    print("yes");
+                  }else{
+                    print("no");
+                    setState(() {
+                      isCompleteError = true;
+                    });
+                    messageDialog(ERROR, "Appointment is on ${doctorAppointmentDetailsClass.data.date}. You can't mark it as Completed today");
+                  }
+                  // print(doctorAppointmentDetailsClass.data.date);
+                  // print(DateTime.now().toString().substring(0,10));
+                  //changeStatus("4");
+                },
+                child: Stack(
+                  children: [
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(25),
+                      child: Image.asset("assets/moreScreenImages/header_bg.png",
+                        height: 50,
+                        fit: BoxFit.fill,
+                        width: MediaQuery.of(context).size.width,
+                      ),
                     ),
-                  ),
-                  Center(
-                    child: Text(
-                        ABSENT,
-                        style: Theme.of(context).textTheme.bodyText1.apply(
-                            color: Theme.of(context).backgroundColor,
-                            fontSizeDelta: 2
-                        )
-                    ),
-                  )
-                ],
+                    Center(
+                      child: Text(
+                          COMPLETE,
+                          style: Theme.of(context).textTheme.bodyText1.apply(
+                              color: Theme.of(context).backgroundColor,
+                              fontSizeDelta: 2
+                          )
+                      ),
+                    )
+                  ],
+                ),
               ),
             ),
-          ),
-        ],
-      ) : Container(),
+            SizedBox(height: 10,),
+            Container(
+              height: 50,
+              margin: EdgeInsets.fromLTRB(20, 0, 20, 20),
+              child: InkWell(
+                onTap: (){
+                  changeStatus("0");
+                },
+                child: Stack(
+                  children: [
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(25),
+                      child: Image.asset("assets/moreScreenImages/header_bg.png",
+                        height: 50,
+                        fit: BoxFit.fill,
+                        width: MediaQuery.of(context).size.width,
+                      ),
+                    ),
+                    Center(
+                      child: Text(
+                          ABSENT,
+                          style: Theme.of(context).textTheme.bodyText1.apply(
+                              color: Theme.of(context).backgroundColor,
+                              fontSizeDelta: 2
+                          )
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ) : Container(),
+      ),
     );
   }
 

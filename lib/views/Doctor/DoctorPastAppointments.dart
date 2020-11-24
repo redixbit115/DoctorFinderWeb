@@ -111,7 +111,11 @@ class _DoctorPastAppointmentsState extends State<DoctorPastAppointments> {
         ),
         body: SingleChildScrollView(
           controller: _scrollController,
-          child: upCommingAppointments(),
+          child: Center(
+            child: Container(
+                constraints: BoxConstraints(minWidth: minWidth, maxWidth: maxWidth),
+                child: upCommingAppointments()),
+          ),
         ),
       ),
     );

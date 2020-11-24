@@ -1,5 +1,7 @@
 import 'dart:convert';
-
+import 'dart:html' as html;
+import 'dart:typed_data';
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter_doctor_web_app/en.dart';
 import 'package:flutter_doctor_web_app/main.dart';
 import 'package:flutter_doctor_web_app/modals/DoctorProfileSetails.dart';

@@ -126,189 +126,199 @@ class _MoreScreenState extends State<MoreScreen> {
   }
   
   Widget profile(){
-    return Stack(
-      children: [
-        Container(
-          child: Image.network(
-            "https://images.unsplash.com/photo-1532938911079-1b06ac7ceec7?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1189&q=80",
-            height: 130,
-            width: MediaQuery.of(context).size.width,
-            fit: BoxFit.cover
-          ),
-          foregroundDecoration: BoxDecoration(
-            color: Colors.black45
-          ),
-        ),
-        Container(
-          height: 130,
-          child: Row(
-            //mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              SizedBox(width: 15,),
-              ClipRRect(
-                borderRadius: BorderRadius.circular(35),
-                child: CachedNetworkImage(
-                  imageUrl: isLoggedIn ? Uri.encodeFull(profileImage) : " ",
-                  //imageUrl: " ",
-                  height: 70,
-                  width: 70,
-                  fit: BoxFit.cover,
-                  placeholder: (context, url) => Container(color: Theme.of(context).primaryColorLight, child: Padding(
-                    padding: const EdgeInsets.all(20.0),
-                    child: Image.asset("assets/homeScreenImages/user_unactive.png",height: 20, width: 20,),
-                  ),),
-                  errorWidget: (context,url,err) => Container(color: Theme.of(context).primaryColorLight, child: Padding(
-                    padding: const EdgeInsets.all(20.0),
-                    child: Image.asset("assets/homeScreenImages/user_unactive.png",height: 20, width: 20,),
-                  )),
-                ),
+    return Center(
+      child: Container(
+        constraints: BoxConstraints(minWidth: minWidth, maxWidth: maxWidth),
+        child: Stack(
+          children: [
+            Container(
+              child: Image.network(
+                "https://images.unsplash.com/photo-1532938911079-1b06ac7ceec7?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1189&q=80",
+                height: 130,
+                width: MediaQuery.of(context).size.width,
+                fit: BoxFit.cover
               ),
-              SizedBox(width: 10,),
-              Expanded(
-                child: InkWell(
-                  onTap: (){
-                    if(!isLoggedIn){
-                      Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => LoginAsUser())
-                      );
-                    }
-                  },
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+              foregroundDecoration: BoxDecoration(
+                color: Colors.black45
+              ),
+            ),
+            Container(
+              height: 130,
+              child: Row(
+                //mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  SizedBox(width: 15,),
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(35),
+                    child: CachedNetworkImage(
+                      imageUrl: isLoggedIn ? Uri.encodeFull(profileImage) : " ",
+                      //imageUrl: " ",
+                      height: 70,
+                      width: 70,
+                      fit: BoxFit.cover,
+                      placeholder: (context, url) => Container(color: Theme.of(context).primaryColorLight, child: Padding(
+                        padding: const EdgeInsets.all(20.0),
+                        child: Image.asset("assets/homeScreenImages/user_unactive.png",height: 20, width: 20,),
+                      ),),
+                      errorWidget: (context,url,err) => Container(color: Theme.of(context).primaryColorLight, child: Padding(
+                        padding: const EdgeInsets.all(20.0),
+                        child: Image.asset("assets/homeScreenImages/user_unactive.png",height: 20, width: 20,),
+                      )),
+                    ),
+                  ),
+                  SizedBox(width: 10,),
+                  Expanded(
+                    child: InkWell(
+                      onTap: (){
+                        if(!isLoggedIn){
+                          Navigator.push(context,
+                            MaterialPageRoute(builder: (context) => LoginAsUser())
+                          );
+                        }
+                      },
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            isLoggedIn ? name : SIGN_IN,
+                            style: GoogleFonts.poppins(
+                                fontWeight: FontWeight.w600,
+                                color: Colors.white,
+                                fontSize: 17
+                            ),
+                          ),
+                          Text(
+                            isLoggedIn  ? email : SIGN_IN_TO_CONTINUE,
+                            style: GoogleFonts.poppins(
+                                fontWeight: FontWeight.w500,
+                                color: Colors.white,
+                                fontSize: 11.5
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  isLoggedIn ? Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text(
-                        isLoggedIn ? name : SIGN_IN,
-                        style: GoogleFonts.poppins(
-                            fontWeight: FontWeight.w600,
-                            color: Colors.white,
-                            fontSize: 17
-                        ),
-                      ),
-                      Text(
-                        isLoggedIn  ? email : SIGN_IN_TO_CONTINUE,
-                        style: GoogleFonts.poppins(
-                            fontWeight: FontWeight.w500,
-                            color: Colors.white,
-                            fontSize: 11.5
+                      InkWell(
+                        onTap:() async{
+                          await Navigator.push(context,
+                            MaterialPageRoute(
+                              builder: (context) => UserEditProfile("https://images.unsplash.com/photo-1559839734-2b71ea197ec2?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80"),
+                            )
+                          );
+                          initialize();
+                        },
+                        child: Image.asset("assets/moreScreenImages/edit.png",
+                          height: 23,
+                          fit: BoxFit.fill,
+                          width: 23,
                         ),
                       ),
                     ],
-                  ),
-                ),
-              ),
-              isLoggedIn ? Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  InkWell(
-                    onTap:() async{
-                      await Navigator.push(context,
-                        MaterialPageRoute(
-                          builder: (context) => UserEditProfile("https://images.unsplash.com/photo-1559839734-2b71ea197ec2?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80"),
-                        )
-                      );
-                      initialize();
-                    },
-                    child: Image.asset("assets/moreScreenImages/edit.png",
-                      height: 23,
-                      fit: BoxFit.fill,
-                      width: 23,
-                    ),
-                  ),
+                  ) : Container(),
+                  SizedBox(width: 15,),
                 ],
-              ) : Container(),
-              SizedBox(width: 15,),
-            ],
-          ),
-        )
-      ],
+              ),
+            )
+          ],
+        ),
+      ),
     );
   }
 
   Widget options(){
-    return ListView.builder(
-      shrinkWrap: true,
-      physics: ClampingScrollPhysics(),
-      padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
-      itemCount: isLoggedIn ? list.length : list.length - 1,
-        itemBuilder: (context, index){
-          return InkWell(
-            onTap: () async{
-              if(index == 0){
-                Navigator.push(context, MaterialPageRoute(
-                  builder: (context) => SpecialityScreen(),
-                ));
-              }
-              if(index == 4){
-                Navigator.push(context, MaterialPageRoute(
-                  builder: (context) => ReportIssuesScreen(),
-                ));
-              }
-              if(index == 3){
-                Navigator.push(context, MaterialPageRoute(
-                  builder: (context) => HelpCenter(),
-                ));
-              }
-              if(index == 2){
-                Navigator.push(context, MaterialPageRoute(
-                  builder: (context) => TermAndConditions(),
-                ));
-              }
-              if(index == 1){
-                Navigator.push(context, MaterialPageRoute(
-                  builder: (context) => AboutScreen(),
-                ));
-              }
-              if(index == 5){
-                print(index);
-                await SharedPreferences.getInstance().then((pref){
-                  pref.setBool("isLoggedInAsDoctor", false);
-                  pref.setBool("isLoggedIn", false);
-                  pref.setString("userId", null);
-                  pref.setString("name", null);
-                  pref.setString("phone", null);
-                  pref.setString("email", null);
-                  pref.setString("password", null);
-                  pref.setString("token", null);
-                  pref.setString("profile_image", null);
-                });
-                Navigator.of(context).popUntil((route) => route.isFirst);
-                Navigator.pushReplacement(context,
-                    MaterialPageRoute(builder: (context) => TabsScreen())
-                );
-              }
-              },
-            child: Column(
-              children: [
-                SizedBox(height: 8,),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return Center(
+      child: Container(
+        constraints: BoxConstraints(minWidth: minWidth, maxWidth: maxWidth),
+        child: ListView.builder(
+          shrinkWrap: true,
+          physics: ClampingScrollPhysics(),
+          padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
+          itemCount: isLoggedIn ? list.length : list.length - 1,
+            itemBuilder: (context, index){
+              return InkWell(
+                onTap: () async{
+                  if(index == 0){
+                    Navigator.push(context, MaterialPageRoute(
+                      builder: (context) => SpecialityScreen(),
+                    ));
+                  }
+                  if(index == 4){
+                    Navigator.push(context, MaterialPageRoute(
+                      builder: (context) => ReportIssuesScreen(),
+                    ));
+                  }
+                  if(index == 3){
+                    Navigator.push(context, MaterialPageRoute(
+                      builder: (context) => HelpCenter(),
+                    ));
+                  }
+                  if(index == 2){
+                    Navigator.push(context, MaterialPageRoute(
+                      builder: (context) => TermAndConditions(),
+                    ));
+                  }
+                  if(index == 1){
+                    Navigator.push(context, MaterialPageRoute(
+                      builder: (context) => AboutScreen(),
+                    ));
+                  }
+                  if(index == 5){
+                    print(index);
+                    await SharedPreferences.getInstance().then((pref){
+                      pref.setBool("isLoggedInAsDoctor", false);
+                      pref.setBool("isLoggedIn", false);
+                      pref.setString("userId", null);
+                      pref.setString("name", null);
+                      pref.setString("phone", null);
+                      pref.setString("email", null);
+                      pref.setString("password", null);
+                      pref.setString("token", null);
+                      pref.setString("profile_image", null);
+                    });
+                    Navigator.of(context).popUntil((route) => route.isFirst);
+                    Navigator.pushReplacement(context,
+                        MaterialPageRoute(builder: (context) => TabsScreen())
+                    );
+                  }
+                  },
+                child: Column(
                   children: [
-                    Text(
-                      list[index],
-                      style: GoogleFonts.poppins(
-                          fontWeight: FontWeight.w400,
-                          color: Colors.black,
-                          fontSize: 13
-                      ),
+                    SizedBox(height: 8,),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          list[index],
+                          style: GoogleFonts.poppins(
+                              fontWeight: FontWeight.w400,
+                              color: Colors.black,
+                              fontSize: 13
+                          ),
+                        ),
+                        Image.asset(
+                          "assets/moreScreenImages/detail_arrow.png",
+                          height: 15,
+                          fit: BoxFit.fill,
+                          width: 15,
+                        ),
+                      ],
                     ),
-                    Image.asset(
-                      "assets/moreScreenImages/detail_arrow.png",
-                      height: 15,
-                      fit: BoxFit.fill,
-                      width: 15,
+                    SizedBox(height: 7,),
+                    Divider(
+                      thickness: 0.3,
+                      color: Colors.grey.shade400,
                     ),
                   ],
                 ),
-                SizedBox(height: 7,),
-                Divider(
-                  thickness: 0.3,
-                  color: Colors.grey.shade400,
-                ),
-              ],
-            ),
-          );
-        });
+              );
+            }),
+      ),
+    );
   }
 
 }

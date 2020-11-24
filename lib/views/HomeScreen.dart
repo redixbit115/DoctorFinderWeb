@@ -87,35 +87,40 @@ class _HomeScreenState extends State<HomeScreen> {
       body: Stack(
         children: [
           isSearching
-              ? Padding(
-                padding: const EdgeInsets.fromLTRB(10, 130, 10, 0),
-                child: Column(
-                  children: [
-                    Expanded(
-                      child: ListView.builder(
-                        controller: _scrollController,
-                        itemCount: _newData.length,
-                        itemBuilder: (context, index){
-                            return ListTile(
-                              title: Text(
-                                _newData[index].name,
-                                style: GoogleFonts.poppins(
-                                    color: Theme.of(context).primaryColorDark,
-                                    fontSize: 14
-                                ),
-                              ),
-                              trailing: Icon(
-                                Icons.search,
-                                size: 18,
-                              ),
-                              onTap: (){
-                                Navigator.push(context, MaterialPageRoute(builder: (context) => DetailsPage(_newData[index].id.toString())));
-                              },
-                            );
-                          }
-                      ),
+              ? Center(
+                child: Container(
+            constraints: BoxConstraints(minWidth: minWidth, maxWidth: maxWidth),
+            child: Padding(
+                    padding: const EdgeInsets.fromLTRB(10, 150, 10, 0),
+                    child: Column(
+                      children: [
+                        Expanded(
+                          child: ListView.builder(
+                            controller: _scrollController,
+                            itemCount: _newData.length,
+                            itemBuilder: (context, index){
+                                return ListTile(
+                                  title: Text(
+                                    _newData[index].name,
+                                    style: GoogleFonts.poppins(
+                                        color: Theme.of(context).primaryColorDark,
+                                        fontSize: 14
+                                    ),
+                                  ),
+                                  trailing: Icon(
+                                    Icons.search,
+                                    size: 18,
+                                  ),
+                                  onTap: (){
+                                    Navigator.push(context, MaterialPageRoute(builder: (context) => DetailsPage(_newData[index].id.toString())));
+                                  },
+                                );
+                              }
+                          ),
+                        ),
+                      ],
                     ),
-                  ],
+                  ),
                 ),
               )
               : SingleChildScrollView(
@@ -192,252 +197,260 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget header(){
-    return Stack(
-      children: [
-        Image.asset(
-          "assets/homeScreenImages/header_bg.png",
-          height: 180,
-          width: MediaQuery.of(context).size.width,
-          fit: BoxFit.fill,
-        ),
-        SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.fromLTRB(16, 10, 16, 10),
-            child: Column(
-              children: [
-                Row(
-                  //crossAxisAlignment: CrossAxisAlignment.baseline,
+    return Center(
+      child: Container(
+        constraints: BoxConstraints(minWidth: minWidth, maxWidth: maxWidth),
+        child: Stack(
+          children: [
+            Image.asset(
+              "assets/homeScreenImages/header_bg.png",
+              height: 180,
+              width: MediaQuery.of(context).size.width,
+              fit: BoxFit.fill,
+            ),
+            SafeArea(
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(16, 10, 16, 10),
+                child: Column(
                   children: [
-                    Text("$WELCOME, ",
-                      style: Theme.of(context).textTheme.caption.apply(
-                        color: Theme.of(context).backgroundColor,
-                        fontSizeDelta: 4,
-                      )
+                    Row(
+                      //crossAxisAlignment: CrossAxisAlignment.baseline,
+                      children: [
+                        Text("$WELCOME, ",
+                          style: Theme.of(context).textTheme.caption.apply(
+                            color: Theme.of(context).backgroundColor,
+                            fontSizeDelta: 4,
+                          )
+                        ),
+                        Text(userName,
+                          style: Theme.of(context).textTheme.headline5.apply(
+                            color: Theme.of(context).backgroundColor,
+                            fontWeightDelta: 2
+                          )
+                        ),
+                      ],
                     ),
-                    Text(userName,
-                      style: Theme.of(context).textTheme.headline5.apply(
-                        color: Theme.of(context).backgroundColor,
-                        fontWeightDelta: 2
-                      )
-                    ),
+                    SizedBox(height: 10,),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Container(
+                            height: 50,
+                            //margin: EdgeInsets.fromLTRB(16, 0, 16, 0),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(15),
+                              color: Theme.of(context).backgroundColor,
+                            ),
+                            child: textField = TextField(
+                              controller: _textController,
+                              decoration: InputDecoration(
+                                contentPadding: EdgeInsets.all(10),
+                                border: OutlineInputBorder(
+                                  borderSide: BorderSide(color: Theme.of(context).backgroundColor),
+                                  borderRadius: BorderRadius.circular(15),
+                                ),
+                                hintText: SEARCH_DOCTOR_BY_NAME,
+                                hintStyle: Theme.of(context).textTheme.bodyText2.apply(
+                                  color: Theme.of(context).primaryColorDark.withOpacity(0.4),
+                                ),
+                                suffixIcon: Container(
+                                    height: 20,
+                                    width: 20,
+                                    child: Center(
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(13),
+                                        child: CircularProgressIndicator(
+                                          strokeWidth: 1.5,
+                                          valueColor: isLoading
+                                              ? AlwaysStoppedAnimation(Theme.of(context).accentColor)
+                                              : AlwaysStoppedAnimation(Colors.transparent),
+                                        ),
+                                      ),
+                                    ),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(color: Theme.of(context).backgroundColor),
+                                  borderRadius: BorderRadius.circular(15),
+                                ),
+                                disabledBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(color: Theme.of(context).backgroundColor),
+                                  borderRadius: BorderRadius.circular(15),
+                                ),
+                                enabledBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(color: Theme.of(context).backgroundColor),
+                                  borderRadius: BorderRadius.circular(15),
+                                )
+                              ),
+                              onChanged: (val){
+                                setState(() {
+                                  searchKeyword = val;
+                                  _onChanged(val);
+                                });
+                              },
+                              onSubmitted: (val){
+                                setState(() {
+                                  searchKeyword = val;
+                                });
+                              },
+                            ),
+
+
+                          ),
+                        ),
+                        SizedBox(width: 5,),
+                        InkWell(
+                          onTap: () async{
+                            await Navigator.push(context, MaterialPageRoute(builder: (context) => SearchedScreen(_textController.text)));
+                            setState(() {
+                              _newData.clear();
+                              _textController.clear();
+                              _textController.text = "";
+                              _onChanged(_textController.text);
+                              //_textController = new TextEditingController();
+                              //textField.controller.clearComposing();
+                              //_textController.selection.end;
+                            });
+                            },
+                          child: Container(
+                            width: 50,
+                            height: 50,
+                            decoration: BoxDecoration(
+                              color: Theme.of(context).backgroundColor,
+                              borderRadius: BorderRadius.circular(15),
+                            ),
+                            child: Center(
+                              child: Image.asset(
+                                "assets/homeScreenImages/search_icon.png",
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    )
                   ],
                 ),
-                SizedBox(height: 10,),
-                Row(
-                  children: [
-                    Expanded(
-                      child: Container(
-                        height: 50,
-                        //margin: EdgeInsets.fromLTRB(16, 0, 16, 0),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(15),
-                          color: Theme.of(context).backgroundColor,
-                        ),
-                        child: textField = TextField(
-                          controller: _textController,
-                          decoration: InputDecoration(
-                            contentPadding: EdgeInsets.all(10),
-                            border: OutlineInputBorder(
-                              borderSide: BorderSide(color: Theme.of(context).backgroundColor),
-                              borderRadius: BorderRadius.circular(15),
-                            ),
-                            hintText: SEARCH_DOCTOR_BY_NAME,
-                            hintStyle: Theme.of(context).textTheme.bodyText2.apply(
-                              color: Theme.of(context).primaryColorDark.withOpacity(0.4),
-                            ),
-                            suffixIcon: Container(
-                                height: 20,
-                                width: 20,
-                                child: Center(
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(13),
-                                    child: CircularProgressIndicator(
-                                      strokeWidth: 1.5,
-                                      valueColor: isLoading
-                                          ? AlwaysStoppedAnimation(Theme.of(context).accentColor)
-                                          : AlwaysStoppedAnimation(Colors.transparent),
-                                    ),
-                                  ),
-                                ),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(color: Theme.of(context).backgroundColor),
-                              borderRadius: BorderRadius.circular(15),
-                            ),
-                            disabledBorder: OutlineInputBorder(
-                              borderSide: BorderSide(color: Theme.of(context).backgroundColor),
-                              borderRadius: BorderRadius.circular(15),
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderSide: BorderSide(color: Theme.of(context).backgroundColor),
-                              borderRadius: BorderRadius.circular(15),
-                            )
-                          ),
-                          onChanged: (val){
-                            setState(() {
-                              searchKeyword = val;
-                              _onChanged(val);
-                            });
-                          },
-                          onSubmitted: (val){
-                            setState(() {
-                              searchKeyword = val;
-                            });
-                          },
-                        ),
-
-
-                      ),
-                    ),
-                    SizedBox(width: 5,),
-                    InkWell(
-                      onTap: () async{
-                        await Navigator.push(context, MaterialPageRoute(builder: (context) => SearchedScreen(_textController.text)));
-                        setState(() {
-                          _newData.clear();
-                          _textController.clear();
-                          _textController.text = "";
-                          _onChanged(_textController.text);
-                          //_textController = new TextEditingController();
-                          //textField.controller.clearComposing();
-                          //_textController.selection.end;
-                        });
-                        },
-                      child: Container(
-                        width: 50,
-                        height: 50,
-                        decoration: BoxDecoration(
-                          color: Theme.of(context).backgroundColor,
-                          borderRadius: BorderRadius.circular(15),
-                        ),
-                        child: Center(
-                          child: Image.asset(
-                            "assets/homeScreenImages/search_icon.png",
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                )
-              ],
+              ),
             ),
-          ),
+          ],
         ),
-      ],
+      ),
     );
   }
 
   Widget upCommingAppointments(){
-    return Container(
-      margin: EdgeInsets.fromLTRB(16, 0, 16, 0),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(UPCOMING_APPOINTMENTS,
-                style: Theme.of(context).textTheme.bodyText2.apply(
-                  fontWeightDelta: 3
-                )
-              ),
-              isAppointmentExist
-                  ? TextButton(onPressed: (){
-                Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => AllAppointments(userAppointmentsClass)),
-                );
-              }, child: Text(SEE_ALL,
-                style: Theme.of(context).textTheme.bodyText1.apply(
-                  color: Theme.of(context).accentColor,
-                )
-              ),)
-                  : Container(height: 40,)
-            ],
-          ),
-          SizedBox(height: 5,),
-          FutureBuilder(
-            future: loadAppointments,
-            builder: (context, snapshot){
-              if(snapshot.connectionState == ConnectionState.waiting){
-                return Padding(
-                  padding: const EdgeInsets.all(50.0),
-                  child: CircularProgressIndicator(
-                    strokeWidth: 2,
-                  ),
-                );
-              }else if(snapshot.connectionState == ConnectionState.done && isAppointmentExist){
-                return ListView.builder(
-                  itemCount: userAppointmentsClass.data.appointmentData.length > 2 ? 2 : userAppointmentsClass.data.appointmentData.length,
-                  shrinkWrap: true,
-                  padding: EdgeInsets.all(0),
-                  physics: ClampingScrollPhysics(),
-                  itemBuilder: (context, index){
-                    return appointmentListWidget(index, userAppointmentsClass.data.appointmentData);
-                  },
-                );
-              }else{
-                return Container(
-                  width: MediaQuery.of(context).size.width,
-                  decoration: BoxDecoration(
-                      color: Theme.of(context).backgroundColor,
-                      borderRadius: BorderRadius.circular(15)
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(30.0),
-                    child: Column(
-                      children: [
-                        Image.asset(
-                            "assets/homeScreenImages/no_appo_img.png"
-                        ),
-                        SizedBox(height: 15,),
-                        Text(
-                          YOU_DONOT_HAVE_ANY_UPCOMING_APPOINTMENT,
-                          style: TextStyle(
-                              fontWeight: FontWeight.w900,
-                            fontSize: 11
+    return Center(
+      child: Container(
+        constraints: BoxConstraints(minWidth: minWidth, maxWidth: maxWidth),
+        margin: EdgeInsets.fromLTRB(16, 0, 16, 0),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(UPCOMING_APPOINTMENTS,
+                  style: Theme.of(context).textTheme.bodyText2.apply(
+                    fontWeightDelta: 3
+                  )
+                ),
+                isAppointmentExist
+                    ? TextButton(onPressed: (){
+                  Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => AllAppointments(userAppointmentsClass)),
+                  );
+                }, child: Text(SEE_ALL,
+                  style: Theme.of(context).textTheme.bodyText1.apply(
+                    color: Theme.of(context).accentColor,
+                  )
+                ),)
+                    : Container(height: 40,)
+              ],
+            ),
+            SizedBox(height: 5,),
+            FutureBuilder(
+              future: loadAppointments,
+              builder: (context, snapshot){
+                if(snapshot.connectionState == ConnectionState.waiting){
+                  return Padding(
+                    padding: const EdgeInsets.all(50.0),
+                    child: CircularProgressIndicator(
+                      strokeWidth: 2,
+                    ),
+                  );
+                }else if(snapshot.connectionState == ConnectionState.done && isAppointmentExist){
+                  return ListView.builder(
+                    itemCount: userAppointmentsClass.data.appointmentData.length > 2 ? 2 : userAppointmentsClass.data.appointmentData.length,
+                    shrinkWrap: true,
+                    padding: EdgeInsets.all(0),
+                    physics: ClampingScrollPhysics(),
+                    itemBuilder: (context, index){
+                      return appointmentListWidget(index, userAppointmentsClass.data.appointmentData);
+                    },
+                  );
+                }else{
+                  return Container(
+                    width: MediaQuery.of(context).size.width,
+                    decoration: BoxDecoration(
+                        color: Theme.of(context).backgroundColor,
+                        borderRadius: BorderRadius.circular(15)
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(30.0),
+                      child: Column(
+                        children: [
+                          Image.asset(
+                              "assets/homeScreenImages/no_appo_img.png"
                           ),
-                        ),
-                        SizedBox(height: 3,),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              FIND_BEST_DOCTORS_NEAR_YOU_BY_SPECIALITY,
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w500,
-                                fontSize: 10
-                              ),
+                          SizedBox(height: 15,),
+                          Text(
+                            YOU_DONOT_HAVE_ANY_UPCOMING_APPOINTMENT,
+                            style: TextStyle(
+                                fontWeight: FontWeight.w900,
+                              fontSize: 11
                             ),
-                            SizedBox(width: 3,),
-                            InkWell(
-                              onTap: (){
-                                Navigator.push(context,
-                                  MaterialPageRoute(
-                                    builder: (context) => SpecialityScreen(),
-                                  )
-                                );
-                              },
-                              child: Text(
-                                CLICK_HERE,
+                          ),
+                          SizedBox(height: 3,),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                FIND_BEST_DOCTORS_NEAR_YOU_BY_SPECIALITY,
                                 style: TextStyle(
-                                    fontWeight: FontWeight.w900,
-                                  fontSize: 10,
-                                  color: Colors.amber.shade700
+                                    fontWeight: FontWeight.w500,
+                                  fontSize: 10
                                 ),
                               ),
-                            ),
-                          ],
-                        ),
-                      ],
+                              SizedBox(width: 3,),
+                              InkWell(
+                                onTap: (){
+                                  Navigator.push(context,
+                                    MaterialPageRoute(
+                                      builder: (context) => SpecialityScreen(),
+                                    )
+                                  );
+                                },
+                                child: Text(
+                                  CLICK_HERE,
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w900,
+                                    fontSize: 10,
+                                    color: Colors.amber.shade700
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                );
-              }
-            },
-          ),
+                  );
+                }
+              },
+            ),
 
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -571,80 +584,83 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget nearByDoctors(){
-    return Container(
-      margin: EdgeInsets.fromLTRB(16, 0, 16, 5),
-      child: Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(NEARBY_DOCTORS,
-                style: Theme.of(context).textTheme.bodyText2.apply(
-                  fontWeightDelta: 3
-                )
-              ),
-              TextButton(onPressed: (){
-                Navigator.push(context, MaterialPageRoute(builder: (context) => AllNearby()));
-              }, child: Text(SEE_ALL,
-                style: Theme.of(context).textTheme.bodyText1.apply(
-                  color: Theme.of(context).accentColor
-                )
-              )),
-            ],
-          ),
-          SizedBox(height: 5,),
-          isNearbyLoading
-          ? isErrorInNearby
-              ? Container(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+    return Center(
+      child: Container(
+        constraints: BoxConstraints(minWidth: minWidth, maxWidth: maxWidth),
+        margin: EdgeInsets.fromLTRB(16, 0, 16, 5),
+        child: Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                SizedBox(
-                  height: 30,
+                Text(NEARBY_DOCTORS,
+                  style: Theme.of(context).textTheme.bodyText2.apply(
+                    fontWeightDelta: 3
+                  )
                 ),
-                Text(TURN_ON_LOCATION_AND_RETRY,
-                  style: Theme.of(context).textTheme.bodyText1
-                ),
-                TextButton(
-                    onPressed: (){
-                      _getLocationStart();
-                    },
-                    child: Text(RETRY,
-                      style: Theme.of(context).textTheme.bodyText1.apply(
-                        color: Theme.of(context).accentColor,
-                      )
-                    ),
-                )
+                TextButton(onPressed: (){
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => AllNearby()));
+                }, child: Text(SEE_ALL,
+                  style: Theme.of(context).textTheme.bodyText1.apply(
+                    color: Theme.of(context).accentColor
+                  )
+                )),
               ],
             ),
-          )
-              : Center(
-            child: CircularProgressIndicator(
-              valueColor: AlwaysStoppedAnimation(Theme.of(context).accentColor),
-              strokeWidth: 2,
-            ),
-          )
-          :
-          GridView.builder(
-              shrinkWrap: true,
-              physics: ClampingScrollPhysics(),
-              gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-                  maxCrossAxisExtent: 200,
-                  childAspectRatio: 0.75,
-                  crossAxisSpacing: 10,
-                  mainAxisSpacing: 10),
-              itemCount: nearbyDoctorClass.data.nearbyData.length < 8
-                  ? nearbyDoctorClass.data.nearbyData.length
-                  : 8,
-              itemBuilder: (BuildContext ctx, index) {
-                  return nearByGridWidget(
-                    nearbyDoctorClass.data.nearbyData[index].image,
-                    nearbyDoctorClass.data.nearbyData[index].name,
-                    nearbyDoctorClass.data.nearbyData[index].departmentName,
-                    nearbyDoctorClass.data.nearbyData[index].id,
-                  );
-              }),
-        ],
+            SizedBox(height: 5,),
+            isNearbyLoading
+            ? isErrorInNearby
+                ? Container(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    height: 30,
+                  ),
+                  Text(TURN_ON_LOCATION_AND_RETRY,
+                    style: Theme.of(context).textTheme.bodyText1
+                  ),
+                  TextButton(
+                      onPressed: (){
+                        _getLocationStart();
+                      },
+                      child: Text(RETRY,
+                        style: Theme.of(context).textTheme.bodyText1.apply(
+                          color: Theme.of(context).accentColor,
+                        )
+                      ),
+                  )
+                ],
+              ),
+            )
+                : Center(
+              child: CircularProgressIndicator(
+                valueColor: AlwaysStoppedAnimation(Theme.of(context).accentColor),
+                strokeWidth: 2,
+              ),
+            )
+            :
+            GridView.builder(
+                shrinkWrap: true,
+                physics: ClampingScrollPhysics(),
+                gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                    maxCrossAxisExtent: 200,
+                    childAspectRatio: 0.75,
+                    crossAxisSpacing: 10,
+                    mainAxisSpacing: 10),
+                itemCount: nearbyDoctorClass.data.nearbyData.length < 8
+                    ? nearbyDoctorClass.data.nearbyData.length
+                    : 8,
+                itemBuilder: (BuildContext ctx, index) {
+                    return nearByGridWidget(
+                      nearbyDoctorClass.data.nearbyData[index].image,
+                      nearbyDoctorClass.data.nearbyData[index].name,
+                      nearbyDoctorClass.data.nearbyData[index].departmentName,
+                      nearbyDoctorClass.data.nearbyData[index].id,
+                    );
+                }),
+          ],
+        ),
       ),
     );
   }

@@ -147,28 +147,33 @@ class _MakeAppointmentState extends State<MakeAppointment> {
             Container(
               margin: EdgeInsets.fromLTRB(0, 0, 0, 80),
               child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    header(),
-                    dayDateList(),
-                    !isLoading
-                        ? isNoSlot ? Center(
-                      child: Padding(
-                        padding: const EdgeInsets.all(20.0),
-                        child: Text(
-                          NO_SLOT_AVAILABLE,
-                          style: GoogleFonts.poppins(
-                              fontWeight: FontWeight.w400,
-                              color: Colors.grey.shade600,
-                              fontSize: 15
+                child: Center(
+                  child: Container(
+                    constraints: BoxConstraints(minWidth: minWidth, maxWidth: maxWidth),
+                    child: Column(
+                      children: [
+                        header(),
+                        dayDateList(),
+                        !isLoading
+                            ? isNoSlot ? Center(
+                          child: Padding(
+                            padding: const EdgeInsets.all(20.0),
+                            child: Text(
+                              NO_SLOT_AVAILABLE,
+                              style: GoogleFonts.poppins(
+                                  fontWeight: FontWeight.w400,
+                                  color: Colors.grey.shade600,
+                                  fontSize: 15
+                              ),
+                            ),
                           ),
-                        ),
-                      ),
-                    ) : slotsList()
-                        : Center(child: CircularProgressIndicator(),),
-                    //!isLoading ? timingSlotsList() : Container(),
-                    SizedBox(height: 80,),
-                  ],
+                        ) : slotsList()
+                            : Center(child: CircularProgressIndicator(),),
+                        //!isLoading ? timingSlotsList() : Container(),
+                        SizedBox(height: 80,),
+                      ],
+                    ),
+                  ),
                 ),
               ),
             ),
@@ -484,6 +489,7 @@ class _MakeAppointmentState extends State<MakeAppointment> {
       alignment: Alignment.bottomCenter,
       child: Container(
         height: 50,
+        constraints: BoxConstraints(minWidth: minWidth, maxWidth: maxWidth),
         margin: EdgeInsets.fromLTRB(20, 10, 20, 20),
         //width: MediaQuery.of(context).size.width,
         child: InkWell(

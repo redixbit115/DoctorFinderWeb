@@ -119,11 +119,16 @@ class _RegisterAsDoctorState extends State<RegisterAsDoctor> {
           children: [
             bottom(),
             SingleChildScrollView(
-              child: Column(
-                children: [
-                  header(),
-                  registerForm(),
-                ],
+              child: Center(
+                child: Container(
+                  constraints: BoxConstraints(minWidth: minWidth, maxWidth: maxWidth),
+                  child: Column(
+                    children: [
+                      header(),
+                      registerForm(),
+                    ],
+                  ),
+                ),
               ),
             ),
             header(),

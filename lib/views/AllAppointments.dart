@@ -153,58 +153,63 @@ class _AllAppointmentsState extends State<AllAppointments> {
       margin: EdgeInsets.fromLTRB(16, 0, 16, 0),
       child: SingleChildScrollView(
         controller: _scrollController,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            SizedBox(height: 5,),
-            FutureBuilder(
-              future: loadAppointments,
-              builder: (context, snapshot){
-                if(snapshot.connectionState == ConnectionState.waiting){
-                  return Container(
-                    height: MediaQuery.of(context).size.height - 50,
-                    child: Center(
-                      child: CircularProgressIndicator(
-                        strokeWidth: 2,
-                      ),
-                    ),
-                  );
-                }else if(snapshot.connectionState == ConnectionState.done && isAppointmentExist){
-                  return ListView.builder(
-                    itemCount: nextUrl == "null" ? list.length : list.length + 1,
-                    shrinkWrap: true,
-                    padding: EdgeInsets.all(0),
-                    physics: ClampingScrollPhysics(),
-                    itemBuilder: (context, index){
-                      if(list.length == index){
-                        return Padding(
-                          padding: const EdgeInsets.all(20.0),
-                          child: LinearProgressIndicator(),
-                        );
-                      }
-                      return appointmentListWidget(index, list);
-                    },
-                  );
-                }else{
-                  return Container(
-                    height: 180,
-                    width: MediaQuery.of(context).size.width,
-                    decoration: BoxDecoration(
-                        color: Theme.of(context).backgroundColor,
-                        borderRadius: BorderRadius.circular(15)
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(30.0),
-                      child: Image.asset(
-                          "assets/homeScreenImages/no_appo_img.png"
-                      ),
-                    ),
-                  );
-                }
-              },
+        child: Center(
+          child: Container(
+            constraints: BoxConstraints(minWidth: minWidth, maxWidth: maxWidth),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                SizedBox(height: 5,),
+                FutureBuilder(
+                  future: loadAppointments,
+                  builder: (context, snapshot){
+                    if(snapshot.connectionState == ConnectionState.waiting){
+                      return Container(
+                        height: MediaQuery.of(context).size.height - 50,
+                        child: Center(
+                          child: CircularProgressIndicator(
+                            strokeWidth: 2,
+                          ),
+                        ),
+                      );
+                    }else if(snapshot.connectionState == ConnectionState.done && isAppointmentExist){
+                      return ListView.builder(
+                        itemCount: nextUrl == "null" ? list.length : list.length + 1,
+                        shrinkWrap: true,
+                        padding: EdgeInsets.all(0),
+                        physics: ClampingScrollPhysics(),
+                        itemBuilder: (context, index){
+                          if(list.length == index){
+                            return Padding(
+                              padding: const EdgeInsets.all(20.0),
+                              child: LinearProgressIndicator(),
+                            );
+                          }
+                          return appointmentListWidget(index, list);
+                        },
+                      );
+                    }else{
+                      return Container(
+                        height: 180,
+                        width: MediaQuery.of(context).size.width,
+                        decoration: BoxDecoration(
+                            color: Theme.of(context).backgroundColor,
+                            borderRadius: BorderRadius.circular(15)
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(30.0),
+                          child: Image.asset(
+                              "assets/homeScreenImages/no_appo_img.png"
+                          ),
+                        ),
+                      );
+                    }
+                  },
+                ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
     );

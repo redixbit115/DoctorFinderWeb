@@ -14,6 +14,8 @@ import 'views/UserPastAppointments.dart';
 
 const String SERVER_ADDRESS =
     "https://freaktemplate.com/appointment_book";
+double minWidth = 200;
+double maxWidth = 500;
 
 const LANGUAGE = "en";
 
@@ -26,7 +28,7 @@ void main() async{
       Container(
         width: 500,
         child: MaterialApp(
-          home: TabsScreen(),
+          home: SplashScreen(),
           theme: ThemeData(
             timePickerTheme: TimePickerThemeData(
               dayPeriodTextColor: Colors.cyanAccent.shade700,
@@ -100,7 +102,9 @@ class _TabsScreenState extends State<TabsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: screens[index],
+      body: Center(
+        child: screens[index],
+      ),
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
           color: Colors.grey.shade200,

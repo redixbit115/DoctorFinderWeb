@@ -150,103 +150,106 @@ class _UserPastAppointmentsState extends State<UserPastAppointments> {
       child: SingleChildScrollView(
         controller: _scrollController,
         child: Center(
-          child: Column(
-            //mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              SizedBox(height: 5,),
-              FutureBuilder(
-                future: loadAppointments,
-                builder: (context, snapshot){
-                  if(snapshot.connectionState == ConnectionState.waiting){
-                    return Container(
-                      height: MediaQuery.of(context).size.height - 100,
-                      width: MediaQuery.of(context).size.width,
-                      child: Center(
-                        child: CircularProgressIndicator(),
-                      ),
-                    );
-                  }else if(snapshot.connectionState == ConnectionState.done && isAppointmentExist){
-                    return Container(
-                      width: 500,
-                      child: ListView.builder(
-                        itemCount: nextUrl == "null" ? list.length : list.length + 1,
-                        shrinkWrap: true,
-                        padding: EdgeInsets.all(0),
-                        physics: ClampingScrollPhysics(),
-                        itemBuilder: (context, index){
-                          if(list.length == index){
-                            return Padding(
-                              padding: const EdgeInsets.all(15.0),
-                              child: LinearProgressIndicator(),
-                            );
-                          }else {
-                            return appointmentListWidget(index, list);
-                          }
-                        },
-                      ),
-                    );
-                  }else{
-                    return Container(
-                      width: MediaQuery.of(context).size.width,
-                      decoration: BoxDecoration(
-                          color: Theme.of(context).backgroundColor,
-                          borderRadius: BorderRadius.circular(15)
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(30.0),
-                        child: Column(
-                          children: [
-                            Image.asset(
-                                "assets/homeScreenImages/no_appo_img.png"
-                            ),
-                            SizedBox(height: 15,),
-                            Text(
-                              YOU_DONOT_HAVE_ANY_UPCOMING_APPOINTMENT,
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w900,
-                                  fontSize: 11
+          child: Container(
+            constraints: BoxConstraints(minWidth: minWidth, maxWidth: maxWidth),
+            child: Column(
+              //mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                SizedBox(height: 5,),
+                FutureBuilder(
+                  future: loadAppointments,
+                  builder: (context, snapshot){
+                    if(snapshot.connectionState == ConnectionState.waiting){
+                      return Container(
+                        height: MediaQuery.of(context).size.height - 100,
+                        width: MediaQuery.of(context).size.width,
+                        child: Center(
+                          child: CircularProgressIndicator(),
+                        ),
+                      );
+                    }else if(snapshot.connectionState == ConnectionState.done && isAppointmentExist){
+                      return Container(
+                        width: 500,
+                        child: ListView.builder(
+                          itemCount: nextUrl == "null" ? list.length : list.length + 1,
+                          shrinkWrap: true,
+                          padding: EdgeInsets.all(0),
+                          physics: ClampingScrollPhysics(),
+                          itemBuilder: (context, index){
+                            if(list.length == index){
+                              return Padding(
+                                padding: const EdgeInsets.all(15.0),
+                                child: LinearProgressIndicator(),
+                              );
+                            }else {
+                              return appointmentListWidget(index, list);
+                            }
+                          },
+                        ),
+                      );
+                    }else{
+                      return Container(
+                        width: MediaQuery.of(context).size.width,
+                        decoration: BoxDecoration(
+                            color: Theme.of(context).backgroundColor,
+                            borderRadius: BorderRadius.circular(15)
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(30.0),
+                          child: Column(
+                            children: [
+                              Image.asset(
+                                  "assets/homeScreenImages/no_appo_img.png"
                               ),
-                            ),
-                            SizedBox(height: 3,),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  FIND_BEST_DOCTORS_NEAR_YOU_BY_SPECIALITY,
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 10
-                                  ),
+                              SizedBox(height: 15,),
+                              Text(
+                                YOU_DONOT_HAVE_ANY_UPCOMING_APPOINTMENT,
+                                style: TextStyle(
+                                    fontWeight: FontWeight.w900,
+                                    fontSize: 11
                                 ),
-                                SizedBox(width: 3,),
-                                InkWell(
-                                  onTap: (){
-                                    Navigator.push(context,
-                                        MaterialPageRoute(
-                                          builder: (context) => SpecialityScreen(),
-                                        )
-                                    );
-                                  },
-                                  child: Text(
-                                    CLICK_HERE,
+                              ),
+                              SizedBox(height: 3,),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    FIND_BEST_DOCTORS_NEAR_YOU_BY_SPECIALITY,
                                     style: TextStyle(
-                                        fontWeight: FontWeight.w900,
-                                        fontSize: 10,
-                                        color: Colors.amber.shade700
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 10
                                     ),
                                   ),
-                                ),
-                              ],
-                            ),
-                          ],
+                                  SizedBox(width: 3,),
+                                  InkWell(
+                                    onTap: (){
+                                      Navigator.push(context,
+                                          MaterialPageRoute(
+                                            builder: (context) => SpecialityScreen(),
+                                          )
+                                      );
+                                    },
+                                    child: Text(
+                                      CLICK_HERE,
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w900,
+                                          fontSize: 10,
+                                          color: Colors.amber.shade700
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
-                    );
-                  }
-                },
-              ),
-            ],
+                      );
+                    }
+                  },
+                ),
+              ],
+            ),
           ),
         ),
       ),

@@ -49,33 +49,38 @@ class _ReportIssuesScreenState extends State<ReportIssuesScreen> {
           leading: Container(),
         ),
         body: SingleChildScrollView(
-          child: Column(
-            children: [
-              SizedBox(height: 10,),
-              checks(),
-              Padding(
-                padding: const EdgeInsets.all(15),
-                child: TextField(
-                  maxLines: 5,
-                  decoration: InputDecoration(
-                    fillColor: Theme.of(context).backgroundColor,
-                    filled: true,
-                    hintText: "Describe your issue",
-                    errorText: isDescriptionError ? "Description is necessary" : null,
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(15),
-                    )
+          child: Center(
+            child: Container(
+              constraints: BoxConstraints(minWidth: minWidth, maxWidth: maxWidth),
+              child: Column(
+                children: [
+                  SizedBox(height: 10,),
+                  checks(),
+                  Padding(
+                    padding: const EdgeInsets.all(15),
+                    child: TextField(
+                      maxLines: 5,
+                      decoration: InputDecoration(
+                        fillColor: Theme.of(context).backgroundColor,
+                        filled: true,
+                        hintText: "Describe your issue",
+                        errorText: isDescriptionError ? "Description is necessary" : null,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(15),
+                        )
+                      ),
+                      onChanged: (val){
+                        setState(() {
+                          description = val;
+                          isDescriptionError = false;
+                        });
+                      },
+                    ),
                   ),
-                  onChanged: (val){
-                    setState(() {
-                      description = val;
-                      isDescriptionError = false;
-                    });
-                  },
-                ),
+                  button(),
+                ],
               ),
-              button(),
-            ],
+            ),
           ),
         ),
       ),

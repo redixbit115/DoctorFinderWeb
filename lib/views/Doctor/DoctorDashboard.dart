@@ -118,11 +118,16 @@ class _DoctorDashboardState extends State<DoctorDashboard> {
             flexibleSpace: header(),
           ),
           body: SingleChildScrollView(
-            child: Column(
-              children: [
-                doctorProfile(),
-                upCommingAppointments(),
-              ],
+            child: Center(
+              child: Container(
+                constraints: BoxConstraints(minWidth: minWidth, maxWidth: maxWidth),
+                child: Column(
+                  children: [
+                    doctorProfile(),
+                    upCommingAppointments(),
+                  ],
+                ),
+              ),
             ),
           ),
         )

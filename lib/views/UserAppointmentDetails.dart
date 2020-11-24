@@ -52,22 +52,29 @@ class _UserAppointmentDetailsState extends State<UserAppointmentDetails> {
             flexibleSpace: header(),
             leading: Container(),
           ),
-          body: FutureBuilder(
-            future: getAppointmentDetails,
-            builder: (context, snapshot){
-              if(snapshot.connectionState == ConnectionState.waiting){
-                return Container(
-                    height: MediaQuery.of(context).size.height,
-                    width: MediaQuery.of(context).size.width,
-                    child: Center(child: CircularProgressIndicator()));
-              }else{
-                return Stack(
-                  children: [
-                    appointmentListWidget(doctorAppointmentDetailsClass.data),
-                  ],
-                );
-              }
-            },
+          body: SingleChildScrollView(
+            child: Center(
+              child: Container(
+                constraints: BoxConstraints(minWidth: minWidth, maxWidth: maxWidth),
+                child: FutureBuilder(
+                  future: getAppointmentDetails,
+                  builder: (context, snapshot){
+                    if(snapshot.connectionState == ConnectionState.waiting){
+                      return Container(
+                          height: MediaQuery.of(context).size.height,
+                          width: MediaQuery.of(context).size.width,
+                          child: Center(child: CircularProgressIndicator()));
+                    }else{
+                      return Stack(
+                        children: [
+                          appointmentListWidget(doctorAppointmentDetailsClass.data),
+                        ],
+                      );
+                    }
+                  },
+                ),
+              ),
+            ),
           ),
         ),
     );

@@ -70,27 +70,32 @@ class _SearchedScreenState extends State<SearchedScreen> {
                 valueColor: AlwaysStoppedAnimation(Colors.cyanAccent.shade700),
               ),
             )
-                : Column(
+                : Center(
+                  child: Container(
+                    constraints: BoxConstraints(minWidth: minWidth, maxWidth: maxWidth),
+                    child: Column(
               children: [
-                header(),
-                upCommingAppointments(),
-                isLoadingMore
-                    ? Padding(
-                  padding: const EdgeInsets.all(20.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      CircularProgressIndicator(
-                        strokeWidth: 2,
+                    header(),
+                    upCommingAppointments(),
+                    isLoadingMore
+                        ? Padding(
+                      padding: const EdgeInsets.all(20.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          CircularProgressIndicator(
+                            strokeWidth: 2,
+                          ),
+                          SizedBox(width: 5,),
+                          Text("Loading..."),
+                        ],
                       ),
-                      SizedBox(width: 5,),
-                      Text("Loading..."),
-                    ],
-                  ),
-                )
-                    : Container()
+                    )
+                        : Container()
               ],
             ),
+                  ),
+                ),
           ),
           header(),
         ],

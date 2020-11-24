@@ -75,34 +75,39 @@ class _ReviewsScreenState extends State<ReviewsScreen> {
         body: Stack(
           children: [
             SingleChildScrollView(
-              child: FutureBuilder(
-                  future: _future,
-                  builder: (context, snapshot){
-                    if(snapshot.connectionState == ConnectionState.waiting){
-                      return Container(
-                        height: MediaQuery.of(context).size.height - 100 ,
-                        width: MediaQuery.of(context).size.width,
-                        child: Center(
-                          child: CircularProgressIndicator(),
-                        ),
-                      );
-                    }
-                    if(snapshot.connectionState == ConnectionState.done && isReviewExist){
-                      return Column(
-                        children: [
-                          reviewsList(),
-                          SizedBox(height: 80,),
-                        ],
-                      );
-                    }else{
-                      return Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Center(
-                          child: Text(No_REVIEWS),
-                        ),
-                      );
-                    }
-                  }),
+              child: Center(
+                child: Container(
+                  constraints: BoxConstraints(minWidth: minWidth, maxWidth: maxWidth),
+                  child: FutureBuilder(
+                      future: _future,
+                      builder: (context, snapshot){
+                        if(snapshot.connectionState == ConnectionState.waiting){
+                          return Container(
+                            height: MediaQuery.of(context).size.height - 100 ,
+                            width: MediaQuery.of(context).size.width,
+                            child: Center(
+                              child: CircularProgressIndicator(),
+                            ),
+                          );
+                        }
+                        if(snapshot.connectionState == ConnectionState.done && isReviewExist){
+                          return Column(
+                            children: [
+                              reviewsList(),
+                              SizedBox(height: 80,),
+                            ],
+                          );
+                        }else{
+                          return Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Center(
+                              child: Text(No_REVIEWS),
+                            ),
+                          );
+                        }
+                      }),
+                ),
+              ),
             ),
             showSheet ? InkWell(
               onTap: (){
@@ -164,6 +169,7 @@ class _ReviewsScreenState extends State<ReviewsScreen> {
     return Align(
       alignment: Alignment.bottomCenter,
       child: Container(
+        constraints: BoxConstraints(minWidth: minWidth, maxWidth: maxWidth),
         height: 50,
         margin: EdgeInsets.fromLTRB(20, 10, 20, 20),
         //width: MediaQuery.of(context).size.width,
@@ -400,158 +406,163 @@ class _ReviewsScreenState extends State<ReviewsScreen> {
   }
 
   bottomSheet(){
-    return Visibility(
-      visible: showSheet,
-      child: DraggableScrollableSheet(
-          initialChildSize: 350/MediaQuery.of(context).size.height,
-          maxChildSize: 350/MediaQuery.of(context).size.height,
-          minChildSize: 350/MediaQuery.of(context).size.height,
-          builder: (context, scrollController){
-          return SingleChildScrollView(
-            controller: scrollController,
-            child: Container(
-              height: 350,
-              color: Colors.white,
-              padding: EdgeInsets.all(15),
-              child: Column(
-                //mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    ADD_A_REVIEW ,
-                    style: GoogleFonts.poppins(
-                        color: Colors.black,
-                        fontSize: 15,
-                        fontWeight: FontWeight.w500
-                    ),
-                  ),
-                  SizedBox(height: 15,),
-                  Text(
-                    YOUR_RATING ,
-                    style: GoogleFonts.poppins(
-                        color: Colors.black,
-                        fontSize: 18,
-                        fontWeight: FontWeight.w500
-                    ),
-                  ),
-                  SizedBox(height: 5,),
-                  Row(
+    return Center(
+      child: Container(
+        constraints: BoxConstraints(minWidth: minWidth, maxWidth: maxWidth),
+        child: Visibility(
+          visible: showSheet,
+          child: DraggableScrollableSheet(
+              initialChildSize: 350/MediaQuery.of(context).size.height,
+              maxChildSize: 350/MediaQuery.of(context).size.height,
+              minChildSize: 350/MediaQuery.of(context).size.height,
+              builder: (context, scrollController){
+              return SingleChildScrollView(
+                controller: scrollController,
+                child: Container(
+                  height: 350,
+                  color: Colors.white,
+                  padding: EdgeInsets.all(15),
+                  child: Column(
+                    //mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      InkWell(
-                        onTap: (){
-                          setState(() {
-                            starCount = 1;
-                            print(starCount);
+                      Text(
+                        ADD_A_REVIEW ,
+                        style: GoogleFonts.poppins(
+                            color: Colors.black,
+                            fontSize: 15,
+                            fontWeight: FontWeight.w500
+                        ),
+                      ),
+                      SizedBox(height: 15,),
+                      Text(
+                        YOUR_RATING ,
+                        style: GoogleFonts.poppins(
+                            color: Colors.black,
+                            fontSize: 18,
+                            fontWeight: FontWeight.w500
+                        ),
+                      ),
+                      SizedBox(height: 5,),
+                      Row(
+                        children: [
+                          InkWell(
+                            onTap: (){
+                              setState(() {
+                                starCount = 1;
+                                print(starCount);
 
-                          });
-                        },
-                        child: Image.asset(
-                          starCount >= 1
-                              ? "assets/detailScreenImages/star_fill.png"
-                              : "assets/detailScreenImages/star_no_fill.png",
-                          height: 25,
-                          width: 25,
-                        ),
-                      ),
-                      SizedBox(width: 3,),
-                      InkWell(
-                        onTap: (){
-                          setState(() {
-                            starCount = 2;
-                            print(starCount);
-                          });
-                        },
-                        child: Image.asset(
-                          starCount >= 2
-                              ? "assets/detailScreenImages/star_fill.png"
-                              : "assets/detailScreenImages/star_no_fill.png",
-                          height: 25,
-                          width: 25,
-                        ),
-                      ),
-                      SizedBox(width: 3,),
-                      InkWell(
-                        onTap: (){
-                          setState(() {
-                            starCount = 3;
-                            print(starCount);
-                          });
-                        },
-                        child: Image.asset(
-                          starCount >= 3
-                              ? "assets/detailScreenImages/star_fill.png"
-                              : "assets/detailScreenImages/star_no_fill.png",
-                          height: 25,
-                          width: 25,
-                        ),
-                      ),
-                      SizedBox(width: 3,),
-                      InkWell(
-                        onTap: (){
-                          setState(() {
-                            starCount = 4;
-                            print(starCount);
-                          });
-                        },
-                        child: Image.asset(
-                          starCount >= 4
-                              ? "assets/detailScreenImages/star_fill.png"
-                              : "assets/detailScreenImages/star_no_fill.png",
-                          height: 25,
-                          width: 25,
-                        ),
-                      ),
-                      SizedBox(width: 3,),
-                      InkWell(
-                        onTap: (){
-                          setState(() {
-                            starCount = 5;
-                            print(starCount);
-                          });
-                        },
-                        child: Image.asset(
-                          starCount >= 5
-                              ? "assets/detailScreenImages/star_fill.png"
-                              : "assets/detailScreenImages/star_no_fill.png",
-                          height: 25,
-                          width: 25,
-                        ),
-                      ),
+                              });
+                            },
+                            child: Image.asset(
+                              starCount >= 1
+                                  ? "assets/detailScreenImages/star_fill.png"
+                                  : "assets/detailScreenImages/star_no_fill.png",
+                              height: 25,
+                              width: 25,
+                            ),
+                          ),
+                          SizedBox(width: 3,),
+                          InkWell(
+                            onTap: (){
+                              setState(() {
+                                starCount = 2;
+                                print(starCount);
+                              });
+                            },
+                            child: Image.asset(
+                              starCount >= 2
+                                  ? "assets/detailScreenImages/star_fill.png"
+                                  : "assets/detailScreenImages/star_no_fill.png",
+                              height: 25,
+                              width: 25,
+                            ),
+                          ),
+                          SizedBox(width: 3,),
+                          InkWell(
+                            onTap: (){
+                              setState(() {
+                                starCount = 3;
+                                print(starCount);
+                              });
+                            },
+                            child: Image.asset(
+                              starCount >= 3
+                                  ? "assets/detailScreenImages/star_fill.png"
+                                  : "assets/detailScreenImages/star_no_fill.png",
+                              height: 25,
+                              width: 25,
+                            ),
+                          ),
+                          SizedBox(width: 3,),
+                          InkWell(
+                            onTap: (){
+                              setState(() {
+                                starCount = 4;
+                                print(starCount);
+                              });
+                            },
+                            child: Image.asset(
+                              starCount >= 4
+                                  ? "assets/detailScreenImages/star_fill.png"
+                                  : "assets/detailScreenImages/star_no_fill.png",
+                              height: 25,
+                              width: 25,
+                            ),
+                          ),
+                          SizedBox(width: 3,),
+                          InkWell(
+                            onTap: (){
+                              setState(() {
+                                starCount = 5;
+                                print(starCount);
+                              });
+                            },
+                            child: Image.asset(
+                              starCount >= 5
+                                  ? "assets/detailScreenImages/star_fill.png"
+                                  : "assets/detailScreenImages/star_no_fill.png",
+                              height: 25,
+                              width: 25,
+                            ),
+                          ),
 
+                        ],
+                      ),
+                      SizedBox(height: 10,),
+                      TextField(
+                        controller: textEditingController,
+                        decoration: InputDecoration(
+                          labelText: ENTER_YOUR_MESSAGE,
+                          labelStyle: GoogleFonts.poppins(
+                              color: Colors.grey.shade600,
+                              fontWeight: FontWeight.w400
+                          ),
+                          border: UnderlineInputBorder(),
+                          focusedBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(color: Colors.grey)
+                          ),
+                          //errorText: isNameError ? "Enter your name" : null,
+                        ),
+                        style: GoogleFonts.poppins(
+                            color: Colors.black,
+                            fontWeight: FontWeight.w500
+                        ),
+                        onChanged: (val){
+                          setState(() {
+                            message = val;
+                            //isNameError = false;
+                          });
+                        },
+                      ),
+                      submitReview(),
                     ],
                   ),
-                  SizedBox(height: 10,),
-                  TextField(
-                    controller: textEditingController,
-                    decoration: InputDecoration(
-                      labelText: ENTER_YOUR_MESSAGE,
-                      labelStyle: GoogleFonts.poppins(
-                          color: Colors.grey.shade600,
-                          fontWeight: FontWeight.w400
-                      ),
-                      border: UnderlineInputBorder(),
-                      focusedBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(color: Colors.grey)
-                      ),
-                      //errorText: isNameError ? "Enter your name" : null,
-                    ),
-                    style: GoogleFonts.poppins(
-                        color: Colors.black,
-                        fontWeight: FontWeight.w500
-                    ),
-                    onChanged: (val){
-                      setState(() {
-                        message = val;
-                        //isNameError = false;
-                      });
-                    },
-                  ),
-                  submitReview(),
-                ],
-              ),
-            ),
-          );
-          },
+                ),
+              );
+              },
+          ),
+        ),
       ),
     );
   }

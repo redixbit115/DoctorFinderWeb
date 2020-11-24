@@ -111,7 +111,12 @@ class _DoctorAllAppointmentsState extends State<DoctorAllAppointments> {
         ),
         body: SingleChildScrollView(
           controller: _scrollController,
-          child: upCommingAppointments(),
+          child: Center(
+              child: Container(
+                  constraints: BoxConstraints(minWidth: minWidth, maxWidth: maxWidth),
+                  child: upCommingAppointments()
+              ),
+          ),
         ),
       ),
     );
@@ -120,6 +125,7 @@ class _DoctorAllAppointmentsState extends State<DoctorAllAppointments> {
   Widget upCommingAppointments(){
     return Container(
       margin: EdgeInsets.fromLTRB(16, 0, 16, 0),
+      constraints: BoxConstraints(minWidth: minWidth, maxWidth: maxWidth),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.start,

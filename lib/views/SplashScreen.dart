@@ -129,10 +129,10 @@ class _SplashScreenState extends State<SplashScreen> {
       setState(() {
         result = e.toString();
       });
-      Toast.show(e.toString(), context,duration: 10);
+      //Toast.show(e.toString(), context,duration: 10);
     });
     print(response);
-    Toast.show(response.toString(), context,duration: 10);
+    //Toast.show(response.toString(), context,duration: 10);
     setState(() {
       result = response.toString();
     });
@@ -144,14 +144,13 @@ class _SplashScreenState extends State<SplashScreen> {
           SharedPreferences.getInstance().then((pref){
             pref.setBool("isTokenExist", true);
             print("token stored");
-            // Navigator.pushReplacement(context,
-            //     MaterialPageRoute(builder: (context) => TabsScreen())
-            // );
+            Navigator.pushReplacement(context,
+                MaterialPageRoute(builder: (context) => TabsScreen())
+            );
           });
         });
       }
     }
-
   }
 
   @override
@@ -165,12 +164,17 @@ class _SplashScreenState extends State<SplashScreen> {
             height: MediaQuery.of(context).size.height,
             width: MediaQuery.of(context).size.width,
           ),
-          Padding(
-            padding: const EdgeInsets.all(85),
-            child: Center(
-              child: Image.asset(
-                  "assets/splash_icon.png",
-                fit: BoxFit.fill,
+          Center(
+            child: Container(
+              constraints: BoxConstraints(minWidth: minWidth, maxWidth: maxWidth),
+              child: Padding(
+                padding: const EdgeInsets.all(85),
+                child: Center(
+                  child: Image.asset(
+                      "assets/splash_icon.png",
+                    fit: BoxFit.fill,
+                  ),
+                ),
               ),
             ),
           ),

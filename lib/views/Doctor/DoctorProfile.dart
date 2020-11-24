@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'dart:io';
-
+import 'dart:html' as html;
+import 'dart:typed_data';
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter_doctor_web_app/en.dart';
 import 'package:flutter_doctor_web_app/main.dart';
 import 'package:flutter_doctor_web_app/modals/DoctorProfileSetails.dart';
@@ -35,6 +37,7 @@ class _DoctorProfileState extends State<DoctorProfile>{
   Future future;
   Future future2;
   String doctorId;
+  Uint8List uploadedImage;
   List<String> daysList = [
     "Monday",
     "Tuesday",
@@ -46,6 +49,42 @@ class _DoctorProfileState extends State<DoctorProfile>{
   ];
 
   List<MyData> myData = [];
+
+  _startFilePicker() async {
+    html.InputElement uploadInput = html.FileUploadInputElement();
+    uploadInput.click();
+
+    uploadInput.onChange.listen((e) {
+      // read file content as dataURL
+      final files = uploadInput.files;
+      if (files.length == 1) {
+        html.File file = files[0];
+        html.FileReader reader =  html.FileReader();
+        reader.onLoadEnd.listen((e) async{
+          setState(() {
+            uploadedImage = reader.result;
+            print(e.toString());
+            print(file.name);
+            print(file.size);
+            print(file.relativePath);
+            print(files);
+            base64image = base64Encode(uploadedImage.buffer.asUint8List());
+            print(base64image);
+          });
+          //final bytes = await Io.File().readAsBytes();
+        });
+        reader.onError.listen((fileEvent) {
+          setState(() {
+            print("Some Error occured while reading the file");
+          });
+        });
+
+        reader.readAsArrayBuffer(file);
+
+      }
+    });
+  }
+
 
 
   fetchDoctorSchedule() async{
@@ -275,6 +314,7 @@ class _DoctorProfileState extends State<DoctorProfile>{
       alignment: Alignment.bottomCenter,
       child: Container(
         height: 70,
+        constraints: BoxConstraints(minWidth: minWidth, maxWidth: maxWidth),
         color: Theme.of(context).backgroundColor,
         padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
         //width: MediaQuery.of(context).size.width,
@@ -448,68 +488,80 @@ class _DoctorProfileState extends State<DoctorProfile>{
       body: Container(
         padding: EdgeInsets.fromLTRB(0, 0, 0, 80),
         child: SingleChildScrollView(
-          child: Column(
-            children: [
-              SizedBox(height: 20,),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+          child: Center(
+            child: Container(
+              constraints: BoxConstraints(minWidth: minWidth, maxWidth: maxWidth),
+              child: Column(
                 children: [
-                  Stack(
+                  SizedBox(height: 20,),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Container(
-                        height: 140,
-                        width: 140,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(70),
-                          border: Border.all(
-                            color: Theme.of(context).primaryColorDark.withOpacity(0.4),
-                            width: 1,
-                          ),
-                        ),
-                        child: Center(
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(65),
-                            child: _image != null
-                                ? Image.file(
-                              _image,
-                              height: 130,
-                              width: 130,
-                              fit: BoxFit.fill,
-                            )
-                                : CachedNetworkImage(
-                              imageUrl: Uri.encodeFull(doctorProfileDetails.data.image),
-                              height: 130,
-                              width: 130,
-                              placeholder: (context, url) => Icon(Icons.image, color: Theme.of(context).primaryColorDark.withOpacity(0.5),),
-                              errorWidget: (context, url, error) => Icon(Icons.image, color: Theme.of(context).primaryColorDark.withOpacity(0.5),),
-                              fit: BoxFit.fill,
+                      Stack(
+                        children: [
+                          Container(
+                            height: 140,
+                            width: 140,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(70),
+                              border: Border.all(
+                                color: Theme.of(context).primaryColorDark.withOpacity(0.4),
+                                width: 1,
+                              ),
+                            ),
+                            child: Center(
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(65),
+                                child:  kIsWeb
+                                    ? uploadedImage == null ? CachedNetworkImage(
+                                  imageUrl: Uri.encodeFull(doctorProfileDetails.data.image),
+                                  height: 130,
+                                  width: 130,
+                                  placeholder: (context, url) => Icon(Icons.image, color: Theme.of(context).primaryColorDark.withOpacity(0.5),),
+                                  errorWidget: (context, url, error) => Icon(Icons.image, color: Theme.of(context).primaryColorDark.withOpacity(0.5),),
+                                  fit: BoxFit.fill,
+                                ) : Image.memory(uploadedImage)
+                                    : _image != null ? Image.file(
+                                  File(_image.path),
+                                  height: 130,
+                                  width: 130,
+                                  fit: BoxFit.fill,
+                                ) : CachedNetworkImage(
+                                  imageUrl: Uri.encodeFull(doctorProfileDetails.data.image),
+                                  height: 130,
+                                  width: 130,
+                                  placeholder: (context, url) => Icon(Icons.image, color: Theme.of(context).primaryColorDark.withOpacity(0.5),),
+                                  errorWidget: (context, url, error) => Icon(Icons.image, color: Theme.of(context).primaryColorDark.withOpacity(0.5),),
+                                  fit: BoxFit.fill,
+                                ),
+                              ),
                             ),
                           ),
-                        ),
-                      ),
-                      Container(
-                        height: 135,
-                        width: 135,
-                        child: Align(
-                          alignment: Alignment.bottomRight,
-                          child: InkWell(
-                            onTap: (){
-                              getImage();
-                            },
-                            child: Image.asset(
-                              "assets/homeScreenImages/edit.png",
-                              height: 35,
-                              width: 35,
+                          Container(
+                            height: 135,
+                            width: 135,
+                            child: Align(
+                              alignment: Alignment.bottomRight,
+                              child: InkWell(
+                                onTap: (){
+                                  kIsWeb ? _startFilePicker() : getImage();
+                                },
+                                child: Image.asset(
+                                  "assets/homeScreenImages/edit.png",
+                                  height: 35,
+                                  width: 35,
+                                ),
+                              )
                             ),
-                          )
-                        ),
+                          ),
+                        ],
                       ),
                     ],
                   ),
+                  formToEdit(),
                 ],
               ),
-              formToEdit(),
-            ],
+            ),
           ),
         ),
       ),
@@ -878,68 +930,73 @@ class _DoctorProfileState extends State<DoctorProfile>{
     return SafeArea(
       child: Scaffold(
         backgroundColor: Theme.of(context).primaryColorLight,
-        body: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
-              child: TextField(
-                maxLines: 3,
-                minLines: 1,
-                controller: textEditingController,
-                decoration: InputDecoration(
-                  labelText: ADDRESS,
-                  labelStyle: TextStyle(
-                    color: Theme.of(context).primaryColorDark.withOpacity(0.4),
+        body: Center(
+          child: Container(
+            constraints: BoxConstraints(minWidth: minWidth, maxWidth: maxWidth),
+            child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
+                  child: TextField(
+                    maxLines: 3,
+                    minLines: 1,
+                    controller: textEditingController,
+                    decoration: InputDecoration(
+                      labelText: ADDRESS,
+                      labelStyle: TextStyle(
+                        color: Theme.of(context).primaryColorDark.withOpacity(0.4),
+                      ),
+                      border: UnderlineInputBorder(),
+                      focusedBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(color: Theme.of(context).primaryColorDark)
+                      ),
+                      errorText: isAddressError ? SELECT_ADDRESS_FROM_MAP : null,
+                    ),
+                    style: TextStyle(
+                        fontWeight: FontWeight.w600,
+                        fontSize: 14
+                    ),
                   ),
-                  border: UnderlineInputBorder(),
-                  focusedBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(color: Theme.of(context).primaryColorDark)
+                ),
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.all(16),
+                    child: FutureBuilder(
+                        future: getLocation,
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState == ConnectionState.waiting || future == null || future2 == null) {
+                            return Center(
+                              child: CircularProgressIndicator(),
+                            );
+                          } else {
+                            return GoogleMap(
+                              onMapCreated: _onMapCreated,
+                              //scrollGesturesEnabled: true,
+                              initialCameraPosition: CameraPosition(
+                                target: _center,
+                                zoom: 15.0,
+                              ),
+                              onTap: (latLang) {
+                                //Toast.show(latLang.toString(), context,duration: 2);
+                                setState(() {
+                                  //_getLocation(latLang);
+                                  _center = latLang;
+                                  locateMarker(_center, true);
+                                });
+                              },
+                              buildingsEnabled: true,
+                              compassEnabled: true,
+                              markers: _markers.values.toSet(),
+                            );
+                          }
+                        }
+                    ),
                   ),
-                  errorText: isAddressError ? SELECT_ADDRESS_FROM_MAP : null,
                 ),
-                style: TextStyle(
-                    fontWeight: FontWeight.w600,
-                    fontSize: 14
-                ),
-              ),
+                SizedBox(height: 70,),
+              ],
             ),
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.all(16),
-                child: FutureBuilder(
-                    future: getLocation,
-                    builder: (context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.waiting || future == null || future2 == null) {
-                        return Center(
-                          child: CircularProgressIndicator(),
-                        );
-                      } else {
-                        return GoogleMap(
-                          onMapCreated: _onMapCreated,
-                          //scrollGesturesEnabled: true,
-                          initialCameraPosition: CameraPosition(
-                            target: _center,
-                            zoom: 15.0,
-                          ),
-                          onTap: (latLang) {
-                            //Toast.show(latLang.toString(), context,duration: 2);
-                            setState(() {
-                              //_getLocation(latLang);
-                              _center = latLang;
-                              locateMarker(_center, true);
-                            });
-                          },
-                          buildingsEnabled: true,
-                          compassEnabled: true,
-                          markers: _markers.values.toSet(),
-                        );
-                      }
-                    }
-                ),
-              ),
-            ),
-            SizedBox(height: 70,),
-          ],
+          ),
         ),
       ),
     );
@@ -975,44 +1032,49 @@ class _DoctorProfileState extends State<DoctorProfile>{
       child: Scaffold(
         backgroundColor: Theme.of(context).primaryColorLight,
         body: SingleChildScrollView(
-          child: Column(
-            children: [
-              SizedBox(height: 10,),
-              FutureBuilder(
-                future: future2,
-                builder: (context, snapshot) {
-                  if(snapshot.connectionState == ConnectionState.waiting || future == null || future2 == null){
-                    return Container(
-                      height: MediaQuery.of(context).size.height - 170,
-                      child: Center(
-                        child: CircularProgressIndicator(
-                          strokeWidth: 2,
-                        ),
-                      ),
-                    );
-                  }else if(snapshot.connectionState == ConnectionState.done){
-                    return ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: 7,
-                      physics: ClampingScrollPhysics(),
-                      itemBuilder: (context, index){
-                        return MyCard(index);
-                      },
-                    );
-                  }else{
-                    return Container(
-                      height: MediaQuery.of(context).size.height - 170,
-                      child: Center(
-                        child: CircularProgressIndicator(
-                          strokeWidth: 2,
-                        ),
-                      ),
-                    );
-                  }
-                }
+          child: Center(
+            child: Container(
+              constraints: BoxConstraints(minWidth: minWidth, maxWidth: maxWidth),
+              child: Column(
+                children: [
+                  SizedBox(height: 10,),
+                  FutureBuilder(
+                    future: future2,
+                    builder: (context, snapshot) {
+                      if(snapshot.connectionState == ConnectionState.waiting || future == null || future2 == null){
+                        return Container(
+                          height: MediaQuery.of(context).size.height - 170,
+                          child: Center(
+                            child: CircularProgressIndicator(
+                              strokeWidth: 2,
+                            ),
+                          ),
+                        );
+                      }else if(snapshot.connectionState == ConnectionState.done){
+                        return ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: 7,
+                          physics: ClampingScrollPhysics(),
+                          itemBuilder: (context, index){
+                            return MyCard(index);
+                          },
+                        );
+                      }else{
+                        return Container(
+                          height: MediaQuery.of(context).size.height - 170,
+                          child: Center(
+                            child: CircularProgressIndicator(
+                              strokeWidth: 2,
+                            ),
+                          ),
+                        );
+                      }
+                    }
+                  ),
+                  SizedBox(height: 100,),
+                ],
               ),
-              SizedBox(height: 100,),
-            ],
+            ),
           ),
         ),
       ),

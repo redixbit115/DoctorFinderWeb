@@ -124,102 +124,107 @@ class _SpecialityScreenState extends State<SpecialityScreen> {
   }
 
   Widget specialityList(){
-    return Column(
-      children: [
-        Expanded(
-          child: GridView.builder(
-            controller: scrollController,
-            padding: EdgeInsets.all(10),
-            itemCount: list.length,
-            //crossAxisCount: 2,
-            gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-                maxCrossAxisExtent: 200,
-                childAspectRatio: 0.75,
-                crossAxisSpacing: 10,
-                mainAxisSpacing: 10),
-            shrinkWrap: true,
-            itemBuilder: (context, index){
-              Color x = Color((Random().nextDouble() * 0xFFFFFF).toInt()).withOpacity(1.0);
-              return InkWell(
-                onTap: (){
-                  Navigator.push(context, MaterialPageRoute(
-                    builder: (context) => SpecialityDoctorsScreen(list[index].id.toString()),
-                  ));
-                },
-                child: Stack(
-                  children: [
-                    Column(
+    return Center(
+      child: Container(
+        constraints: BoxConstraints(minWidth: minWidth, maxWidth: maxWidth),
+        child: Column(
+          children: [
+            Expanded(
+              child: GridView.builder(
+                controller: scrollController,
+                padding: EdgeInsets.all(10),
+                itemCount: list.length,
+                //crossAxisCount: 2,
+                gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                    maxCrossAxisExtent: 200,
+                    childAspectRatio: 0.75,
+                    crossAxisSpacing: 10,
+                    mainAxisSpacing: 10),
+                shrinkWrap: true,
+                itemBuilder: (context, index){
+                  Color x = Color((Random().nextDouble() * 0xFFFFFF).toInt()).withOpacity(1.0);
+                  return InkWell(
+                    onTap: (){
+                      Navigator.push(context, MaterialPageRoute(
+                        builder: (context) => SpecialityDoctorsScreen(list[index].id.toString()),
+                      ));
+                    },
+                    child: Stack(
                       children: [
-                        Expanded(
-                          child: Image.asset(
-                            "assets/specialityScreenImages/speciality_bg.png",
-                            fit: BoxFit.fill,
+                        Column(
+                          children: [
+                            Expanded(
+                              child: Image.asset(
+                                "assets/specialityScreenImages/speciality_bg.png",
+                                fit: BoxFit.fill,
+                              ),
+                            ),
+                          ],
+                        ),
+                        Container(
+                          padding: EdgeInsets.all(15),
+                          child: Column(
+                            //mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Container(
+                                height: 70,
+                                width: 70,
+                                decoration: BoxDecoration(
+                                  color: x.withOpacity(0.1),
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                padding: EdgeInsets.all(13),
+                                child: Image.network(
+                                  list[index].icon,
+                                  height: 50,
+                                  width: 50,
+                                  color: x,
+                                ),
+                              ),
+                              SizedBox(height: 10,),
+                              Text(
+                                list[index].name,
+                                style: GoogleFonts.poppins(
+                                    fontWeight: FontWeight.w500,
+                                    color: Colors.black,
+                                    fontSize: 15
+                                ),
+                              ),
+                              Text(
+                                list[index].totalDoctors.toString() + " specialist",
+                                style: GoogleFonts.poppins(
+                                    fontWeight: FontWeight.w500,
+                                    color: Colors.grey.shade500,
+                                    fontSize: 13
+                                ),
+                              ),
+
+                            ],
                           ),
                         ),
                       ],
                     ),
-                    Container(
-                      padding: EdgeInsets.all(15),
-                      child: Column(
-                        //mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Container(
-                            height: 70,
-                            width: 70,
-                            decoration: BoxDecoration(
-                              color: x.withOpacity(0.1),
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            padding: EdgeInsets.all(13),
-                            child: Image.network(
-                              list[index].icon,
-                              height: 50,
-                              width: 50,
-                              color: x,
-                            ),
-                          ),
-                          SizedBox(height: 10,),
-                          Text(
-                            list[index].name,
-                            style: GoogleFonts.poppins(
-                                fontWeight: FontWeight.w500,
-                                color: Colors.black,
-                                fontSize: 15
-                            ),
-                          ),
-                          Text(
-                            list[index].totalDoctors.toString() + " specialist",
-                            style: GoogleFonts.poppins(
-                                fontWeight: FontWeight.w500,
-                                color: Colors.grey.shade500,
-                                fontSize: 13
-                            ),
-                          ),
-
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              );
-            },
-            //crossAxisSpacing: 8,
-            //mainAxisSpacing: 8,
-            // children: List.generate(list.length, (index){
-            //
-            // }),
-          ),
+                  );
+                },
+                //crossAxisSpacing: 8,
+                //mainAxisSpacing: 8,
+                // children: List.generate(list.length, (index){
+                //
+                // }),
+              ),
+            ),
+            isLoadingMore
+                ? Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: CircularProgressIndicator(
+              strokeWidth: 2,
+            ),
+                )
+                : Container(),
+          ],
         ),
-        isLoadingMore
-            ? Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: CircularProgressIndicator(
-          strokeWidth: 2,
-        ),
-            )
-            : Container(),
-      ],
+      ),
     );
   }
 
