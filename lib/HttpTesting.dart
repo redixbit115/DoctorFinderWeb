@@ -15,8 +15,9 @@ class _HttpTestingState extends State<HttpTesting> {
 
   fetchData() async {
     var headers = {
-      'Cookie': '__cfduid=d61e20889aeab7de8722e8e3bd5fe41a91605938764',
-      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Credentials": true, // Required for cookies, authorization headers with HTTPS
+      "Access-Control-Allow-Headers": "Origin,Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token",
+      "Access-Control-Allow-Methods": "GET, POST, OPTIONS"
     };
     var request = http.MultipartRequest('GET', Uri.parse('https://freaktemplate.com/appointment_book/api/login?email=1@gmail.com&password=1&token=abc'));
     request.fields.addAll({

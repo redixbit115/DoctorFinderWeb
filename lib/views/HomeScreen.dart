@@ -48,6 +48,7 @@ class _HomeScreenState extends State<HomeScreen> {
   ScrollController _scrollController = ScrollController();
   String nextUrl = "";
   String searchKeyword = "";
+  Future loadnearbyFuture;
 
   var _newData = [];
 
@@ -55,7 +56,7 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    _getLocationStart();
+    loadnearbyFuture = _getLocationStart();
     getMessages();
     SharedPreferences.getInstance().then((pref){
       setState(() {
@@ -640,25 +641,36 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             )
             :
-            GridView.builder(
-                shrinkWrap: true,
-                physics: ClampingScrollPhysics(),
-                gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-                    maxCrossAxisExtent: 200,
-                    childAspectRatio: 0.75,
-                    crossAxisSpacing: 10,
-                    mainAxisSpacing: 10),
-                itemCount: nearbyDoctorClass.data.nearbyData.length < 8
-                    ? nearbyDoctorClass.data.nearbyData.length
-                    : 8,
-                itemBuilder: (BuildContext ctx, index) {
-                    return nearByGridWidget(
-                      nearbyDoctorClass.data.nearbyData[index].image,
-                      nearbyDoctorClass.data.nearbyData[index].name,
-                      nearbyDoctorClass.data.nearbyData[index].departmentName,
-                      nearbyDoctorClass.data.nearbyData[index].id,
-                    );
-                }),
+            FutureBuilder(
+              future: loadnearbyFuture,
+              builder: (context, snapshot) {
+                if(snapshot.connectionState == ConnectionState.waiting){
+                  return CircularProgressIndicator();
+                }else if(snapshot.hasError){
+                  return CircularProgressIndicator();
+                }else{
+                  return GridView.builder(
+                      shrinkWrap: true,
+                      physics: ClampingScrollPhysics(),
+                      gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                          maxCrossAxisExtent: 200,
+                          childAspectRatio: 0.75,
+                          crossAxisSpacing: 10,
+                          mainAxisSpacing: 10),
+                      itemCount: nearbyDoctorClass.data.nearbyData.length < 8
+                          ? nearbyDoctorClass.data.nearbyData.length
+                          : 8,
+                      itemBuilder: (BuildContext ctx, index) {
+                        return nearByGridWidget(
+                          nearbyDoctorClass.data.nearbyData[index].image,
+                          nearbyDoctorClass.data.nearbyData[index].name,
+                          nearbyDoctorClass.data.nearbyData[index].departmentName,
+                          nearbyDoctorClass.data.nearbyData[index].id,
+                        );
+                      });
+                }
+              }
+            ),
           ],
         ),
       ),
@@ -778,7 +790,7 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
-  void _getLocationStart() async {
+  Future _getLocationStart() async {
 
     final response = await get(
         "$SERVER_ADDRESS/api/nearbydoctor?lat=21.234567&lon=35.345678");

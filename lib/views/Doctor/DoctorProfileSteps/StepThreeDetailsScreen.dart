@@ -235,35 +235,40 @@ class _StepThreeDetailsScreenState extends State<StepThreeDetailsScreen> {
                     }
                     else if(snapshot.connectionState == ConnectionState.done) {
                       return SingleChildScrollView(
-                        child: Column(
-                          children: [
-                            ListView.builder(
-                              shrinkWrap: true,
-                              physics: ClampingScrollPhysics(),
-                              itemCount: doctorSlotsDetails == null ? 0 : doctorSlotsDetails.data.length,
-                              itemBuilder: (context, index) {
-                                return MyCard(index);
-                              },
-                            ),
-                            SizedBox(height: 20,),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
+                        child: Center(
+                          child: Container(
+                            constraints: BoxConstraints(minWidth: minWidth, maxWidth: maxWidth),
+                            child: Column(
                               children: [
-                                FloatingActionButton(
-                                  child: Icon(Icons.add, color: Theme.of(context).backgroundColor,),
-                                  backgroundColor: Colors.amber.shade700,
-                                  onPressed: (){
-                                    setState(() {
-                                      addValues();
-                                      totalCards = totalCards + 1;
-                                    });
+                                ListView.builder(
+                                  shrinkWrap: true,
+                                  physics: ClampingScrollPhysics(),
+                                  itemCount: doctorSlotsDetails == null ? 0 : doctorSlotsDetails.data.length,
+                                  itemBuilder: (context, index) {
+                                    return MyCard(index);
                                   },
                                 ),
-                                SizedBox(width: 20,)
+                                SizedBox(height: 20,),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    FloatingActionButton(
+                                      child: Icon(Icons.add, color: Theme.of(context).backgroundColor,),
+                                      backgroundColor: Colors.amber.shade700,
+                                      onPressed: (){
+                                        setState(() {
+                                          addValues();
+                                          totalCards = totalCards + 1;
+                                        });
+                                      },
+                                    ),
+                                    SizedBox(width: 20,)
+                                  ],
+                                ),
+                                SizedBox(height: 150,),
                               ],
                             ),
-                            SizedBox(height: 150,),
-                          ],
+                          ),
                         ),
                       );
                     }else{
@@ -645,6 +650,7 @@ class _StepThreeDetailsScreenState extends State<StepThreeDetailsScreen> {
       alignment: Alignment.bottomCenter,
       child: Container(
         height: 50,
+        constraints: BoxConstraints(minWidth: minWidth, maxWidth: maxWidth),
         margin: EdgeInsets.fromLTRB(20, 10, 20, 20),
         //width: MediaQuery.of(context).size.width,
         child: InkWell(

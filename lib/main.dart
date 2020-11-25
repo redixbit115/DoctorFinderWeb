@@ -28,7 +28,7 @@ void main() async{
       Container(
         width: 500,
         child: MaterialApp(
-          home: SplashScreen(),
+          home: HttpTesting(),
           theme: ThemeData(
             timePickerTheme: TimePickerThemeData(
               dayPeriodTextColor: Colors.cyanAccent.shade700,

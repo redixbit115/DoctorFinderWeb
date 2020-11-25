@@ -206,132 +206,137 @@ class _SearchedScreenState extends State<SearchedScreen> {
   }
 
   Widget header(){
-    return Stack(
-      children: [
-        Image.asset(
-          "assets/homeScreenImages/header_bg.png",
-          height: 180,
-          width: MediaQuery.of(context).size.width,
-          fit: BoxFit.fill,
-        ),
-        SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.fromLTRB(16, 10, 16, 10),
-            child: Column(
-              children: [
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.baseline,
+    return Center(
+      child: Container(
+        constraints: BoxConstraints(minWidth: minWidth, maxWidth: maxWidth),
+        child: Stack(
+          children: [
+            Image.asset(
+              "assets/homeScreenImages/header_bg.png",
+              height: 180,
+              width: MediaQuery.of(context).size.width,
+              fit: BoxFit.fill,
+            ),
+            SafeArea(
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(16, 10, 16, 10),
+                child: Column(
                   children: [
-                    Text("$SEARCH, ",
-                      style: GoogleFonts.poppins(
-                        color: Colors.white,
-                      ),
-                    ),
-                    Text(HERE,
-                      style: GoogleFonts.poppins(
-                          color: Colors.white,
-                          fontSize: 25,
-                          fontWeight: FontWeight.w500
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(height: 10,),
-                Row(
-                  children: [
-                    Expanded(
-                      child: Container(
-                        height: 50,
-                        //margin: EdgeInsets.fromLTRB(16, 0, 16, 0),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(15),
-                          color: Colors.white,
+                    Row(
+                      //crossAxisAlignment: CrossAxisAlignment.baseline,
+                      children: [
+                        Text("$SEARCH, ",
+                          style: GoogleFonts.poppins(
+                            color: Colors.white,
+                          ),
                         ),
-                        child: TextField(
-                          controller: _textController,
-                          decoration: InputDecoration(
-                              contentPadding: EdgeInsets.all(10),
-                              border: OutlineInputBorder(
-                                borderSide: BorderSide(color: Colors.white),
-                                borderRadius: BorderRadius.circular(15),
-                              ),
-                              hintText: SEARCH_DOCTOR_BY_NAME,
-                              hintStyle: GoogleFonts.poppins(
-                                  color: Colors.grey.shade400,
-                                  fontSize: 13
-                              ),
-                              suffixIcon: Container(
-                                height: 20,
-                                width: 20,
-                                child: Center(
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(13),
-                                    child: CircularProgressIndicator(
-                                      strokeWidth: 1.5,
-                                      valueColor: isLoading
-                                          ? AlwaysStoppedAnimation(Colors.cyanAccent.shade700)
-                                          : AlwaysStoppedAnimation(Colors.transparent),
+                        Text(HERE,
+                          style: GoogleFonts.poppins(
+                              color: Colors.white,
+                              fontSize: 25,
+                              fontWeight: FontWeight.w500
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 10,),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Container(
+                            height: 50,
+                            //margin: EdgeInsets.fromLTRB(16, 0, 16, 0),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(15),
+                              color: Colors.white,
+                            ),
+                            child: TextField(
+                              controller: _textController,
+                              decoration: InputDecoration(
+                                  contentPadding: EdgeInsets.all(10),
+                                  border: OutlineInputBorder(
+                                    borderSide: BorderSide(color: Colors.white),
+                                    borderRadius: BorderRadius.circular(15),
+                                  ),
+                                  hintText: SEARCH_DOCTOR_BY_NAME,
+                                  hintStyle: GoogleFonts.poppins(
+                                      color: Colors.grey.shade400,
+                                      fontSize: 13
+                                  ),
+                                  suffixIcon: Container(
+                                    height: 20,
+                                    width: 20,
+                                    child: Center(
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(13),
+                                        child: CircularProgressIndicator(
+                                          strokeWidth: 1.5,
+                                          valueColor: isLoading
+                                              ? AlwaysStoppedAnimation(Colors.cyanAccent.shade700)
+                                              : AlwaysStoppedAnimation(Colors.transparent),
+                                        ),
+                                      ),
                                     ),
                                   ),
-                                ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(color: Colors.white),
+                                    borderRadius: BorderRadius.circular(15),
+                                  ),
+                                  disabledBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(color: Colors.white),
+                                    borderRadius: BorderRadius.circular(15),
+                                  ),
+                                  enabledBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(color: Colors.white),
+                                    borderRadius: BorderRadius.circular(15),
+                                  )
                               ),
-                              focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: Colors.white),
-                                borderRadius: BorderRadius.circular(15),
-                              ),
-                              disabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: Colors.white),
-                                borderRadius: BorderRadius.circular(15),
-                              ),
-                              enabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: Colors.white),
-                                borderRadius: BorderRadius.circular(15),
-                              )
-                          ),
-                          onChanged: (val){
-                            setState(() {
-                              searchKeyword = val;
-                              _onChanged(val);
-                              print(searchKeyword);
-                            });
-                          },
-                          onSubmitted: (val){
-                            setState(() {
-                              searchKeyword = val;
-                              _onSubmit(val);
-                            });
-                          },
-                        ),
+                              onChanged: (val){
+                                setState(() {
+                                  searchKeyword = val;
+                                  _onChanged(val);
+                                  print(searchKeyword);
+                                });
+                              },
+                              onSubmitted: (val){
+                                setState(() {
+                                  searchKeyword = val;
+                                  _onSubmit(val);
+                                });
+                              },
+                            ),
 
-                      ),
-                    ),
-                    SizedBox(width: 5,),
-                    InkWell(
-                      onTap: (){
-                        _onSubmit(_textController.text);
-                        //Navigator.push(context, MaterialPageRoute(builder: (context) => SearchedScreen(_textController.text)));
-                      },
-                      child: Container(
-                        width: 50,
-                        height: 50,
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(15),
-                        ),
-                        child: Center(
-                          child: Image.asset(
-                            "assets/homeScreenImages/search_icon.png",
                           ),
                         ),
-                      ),
-                    ),
+                        SizedBox(width: 5,),
+                        InkWell(
+                          onTap: (){
+                            _onSubmit(_textController.text);
+                            //Navigator.push(context, MaterialPageRoute(builder: (context) => SearchedScreen(_textController.text)));
+                          },
+                          child: Container(
+                            width: 50,
+                            height: 50,
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(15),
+                            ),
+                            child: Center(
+                              child: Image.asset(
+                                "assets/homeScreenImages/search_icon.png",
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    )
                   ],
-                )
-              ],
+                ),
+              ),
             ),
-          ),
+          ],
         ),
-      ],
+      ),
     );
   }
 
